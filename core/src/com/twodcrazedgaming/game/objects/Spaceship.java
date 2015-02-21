@@ -16,8 +16,9 @@ import java.util.Calendar;
 public class Spaceship {
     private static final String TAG = Spaceship.class.getName();
 
-    private Texture texture = Assets.instance.getSpaceshipTexture();
-    private Sprite sprite = new Sprite(texture);
+    private Texture spaceshipTexture = Assets.instance.getSpaceshipTexture();
+    private Texture spaceshipWithBoostTexture = Assets.instance.getSpaceShipWithBoostTexture();
+    private Sprite sprite = new Sprite(spaceshipTexture);
     private Vector2 size;
     private Vector2 position;
     private float rotation;
@@ -41,6 +42,7 @@ public class Spaceship {
 
         sprite.setSize(size.x, size.y);
         sprite.setOrigin(size.x / 2, size.y / 2);
+        setBoost(2);
     }
 
     public void render(SpriteBatch batch) {
@@ -56,32 +58,12 @@ public class Spaceship {
         batch.end();
 
         fuelBar.render(batch);
-        createFlames(batch);
-    }
-
-    private void createFlames(SpriteBatch batch) {
-        Vector2 flameForLeftEnginePosition = position;
-        Vector2 flameForRightEnginePosition = position;
-        Flame flameForLeftEngine = new Flame(flameForLeftEnginePosition, rotation);
-        Flame flameForRightEngine = new Flame(flameForRightEnginePosition, rotation);
-
-        flameForLeftEngine.render(batch);
-        flameForRightEngine.render(batch);
     }
 
     private void handleTurning() {
-        float orientation =  Gdx.input.getAccelerometerX();
-
-        if(orientation > 1){
-            rotation = rotation + 1;
-            if(rotation==361){
-                rotation = 1;
-            }
-        }else if(orientation < -1){
-            rotation = rotation - 1;
-            if(rotation==-1){
-                rotation = 359;
-            }
+        rotation = rotation + 1;
+        if(rotation==361){
+            rotation = 1;
         }
     }
 
@@ -100,6 +82,7 @@ public class Spaceship {
 
     public void startBoost(){
         if(fuelLevel != 0) {
+            sprite.setTexture(spaceshipWithBoostTexture);
             setBoost(2);
             playBoostSound();
             useFuel();
@@ -137,10 +120,12 @@ public class Spaceship {
             fuelLevel = fuelLevel - 10;
             fuelBar.updateFuelBar(fuelLevel);
         }
+
         Gdx.app.debug(TAG, "fuel used. fuel level is now: " + fuelLevel);
     }
 
     public void startRefueling() {
+        sprite.setTexture(spaceshipTexture);
         lastTimeSpaceshipRefueled = Calendar.getInstance().getTimeInMillis();
     }
 

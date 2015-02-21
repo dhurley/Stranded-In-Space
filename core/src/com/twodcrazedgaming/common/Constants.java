@@ -9,7 +9,7 @@ public class Constants {
 
     //Assets
     public static final String SPACESHIP_PNG = "images/spaceship.png";
-    public static final String FLAME_PNG = "images/flame.png";
+    public static final String SPACESHIP_WITH_BOOST_PNG = "images/spaceship_with_boost.png";
     public static final String FUEL_BARS_PNG = "images/fuel_bars.png";
     public static final String SPACE_BACKGROUND_PNG = "images/space_background.png";
     public static final String BOOST_OGG = "sounds/boost.ogg";

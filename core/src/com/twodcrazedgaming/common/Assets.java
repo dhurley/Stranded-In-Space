@@ -28,7 +28,7 @@ public class Assets implements Disposable, AssetErrorListener {
         this.assetManager = assetManager;
         assetManager.setErrorListener(this);
         assetManager.load(Constants.SPACESHIP_PNG, Texture.class);
-        assetManager.load(Constants.FLAME_PNG, Texture.class);
+        assetManager.load(Constants.SPACESHIP_WITH_BOOST_PNG, Texture.class);
         assetManager.load(Constants.FUEL_BARS_PNG, Texture.class);
         assetManager.load(Constants.SPACE_BACKGROUND_PNG, Texture.class);
         assetManager.load(Constants.SPACE_OGG, Music.class);
@@ -55,8 +55,8 @@ public class Assets implements Disposable, AssetErrorListener {
         return assetManager.get(Constants.SPACESHIP_PNG);
     }
 
-    public Texture getFlameTexture(){
-        return assetManager.get(Constants.FLAME_PNG);
+    public Texture getSpaceShipWithBoostTexture(){
+        return assetManager.get(Constants.SPACESHIP_WITH_BOOST_PNG);
     }
 
     public TextureRegion getFuelBarTexture(int level) {
