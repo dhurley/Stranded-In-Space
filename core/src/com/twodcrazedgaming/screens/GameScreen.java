@@ -21,9 +21,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.app.setLogLevel(Application.LOG_DEBUG);
-
-        Assets.instance.init(new AssetManager());
         worldRenderer = new WorldRenderer();
         paused = false;
     }

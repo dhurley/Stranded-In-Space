@@ -60,6 +60,14 @@ public class Spaceship {
         fuelBar.render(batch);
     }
 
+    public Vector2 getSize(){
+        return size;
+    }
+
+    public Vector2 getPosition(){
+        return position;
+    }
+
     private void handleTurning() {
         rotation = rotation + 1;
         if(rotation==361){

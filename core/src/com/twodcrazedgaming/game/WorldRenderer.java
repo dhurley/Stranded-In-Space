@@ -1,15 +1,19 @@
 package com.twodcrazedgaming.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.twodcrazedgaming.common.Assets;
 import com.twodcrazedgaming.common.Constants;
 import com.twodcrazedgaming.game.objects.Spaceship;
+import com.twodcrazedgaming.screens.GameOverScreen;
+import com.twodcrazedgaming.screens.GameScreen;
 
 /**
  * Created by DJHURLEY on 20/01/2015.
@@ -47,6 +51,9 @@ public class WorldRenderer implements Disposable {
     public void render(){
         renderBackground();
         spaceship.render(batch);
+        if(isSpaceshipOffScreen()){
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
+        }
     }
 
     public void resize(int width, int height){
@@ -71,4 +78,17 @@ public class WorldRenderer implements Disposable {
         backgroundSprite.draw(batch);
         batch.end();
     }
+
+    private boolean isSpaceshipOffScreen() {
+        Vector2 spaceshipPosition = spaceship.getPosition();
+        Vector2 spaceshipSize = spaceship.getSize();
+        if(spaceshipPosition.x + spaceshipSize.x < 0 || spaceshipPosition.x > Gdx.graphics.getWidth()){
+            return true;
+        }else if(spaceshipPosition.y + spaceshipSize.y < 0 || spaceshipPosition.y > Gdx.graphics.getHeight()){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 }

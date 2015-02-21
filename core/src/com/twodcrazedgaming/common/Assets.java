@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
@@ -31,6 +32,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load(Constants.SPACESHIP_WITH_BOOST_PNG, Texture.class);
         assetManager.load(Constants.FUEL_BARS_PNG, Texture.class);
         assetManager.load(Constants.SPACE_BACKGROUND_PNG, Texture.class);
+        assetManager.load(Constants.GAME_OVER_PNG, Texture.class);
         assetManager.load(Constants.SPACE_OGG, Music.class);
         assetManager.load(Constants.BOOST_OGG, Sound.class);
         assetManager.finishLoading();
@@ -95,6 +97,10 @@ public class Assets implements Disposable, AssetErrorListener {
         return assetManager.get(Constants.SPACE_BACKGROUND_PNG);
     }
 
+    public Texture getGameOverTexture() {
+        return assetManager.get(Constants.GAME_OVER_PNG);
+    }
+
     public Sound getBoostSound(){
         return assetManager.get(Constants.BOOST_OGG, Sound.class);
     }
@@ -102,4 +108,5 @@ public class Assets implements Disposable, AssetErrorListener {
     public Music getSpaceSound() {
         return assetManager.get(Constants.SPACE_OGG, Music.class);
     }
+
 }
