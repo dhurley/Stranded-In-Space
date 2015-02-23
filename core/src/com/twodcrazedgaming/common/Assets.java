@@ -6,10 +6,7 @@ import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -28,11 +25,21 @@ public class Assets implements Disposable, AssetErrorListener {
     public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
         assetManager.setErrorListener(this);
+
+        assetManager.load(Constants.LEADERBOARD_PNG, Texture.class);
+        assetManager.load(Constants.PLAY_PNG, Texture.class);
+        assetManager.load(Constants.RATE_PNG, Texture.class);
+        assetManager.load(Constants.SPEAKER_ON_PNG, Texture.class);
+        assetManager.load(Constants.SPEAKER_OFF_PNG, Texture.class);
+
         assetManager.load(Constants.SPACESHIP_PNG, Texture.class);
         assetManager.load(Constants.SPACESHIP_WITH_BOOST_PNG, Texture.class);
         assetManager.load(Constants.FUEL_BARS_PNG, Texture.class);
         assetManager.load(Constants.SPACE_BACKGROUND_PNG, Texture.class);
+
+        assetManager.load(Constants.TITLE_PNG, Texture.class);
         assetManager.load(Constants.GAME_OVER_PNG, Texture.class);
+
         assetManager.load(Constants.SPACE_OGG, Music.class);
         assetManager.load(Constants.BOOST_OGG, Sound.class);
         assetManager.finishLoading();
@@ -51,6 +58,26 @@ public class Assets implements Disposable, AssetErrorListener {
     @Override
     public void error(AssetDescriptor asset, Throwable throwable) {
         Gdx.app.error(TAG, "cannot load: " + asset.fileName, (Exception)throwable);
+    }
+
+    public Texture getLeaderboardTexture(){
+        return assetManager.get(Constants.LEADERBOARD_PNG);
+    }
+
+    public Texture getPlayTexture(){
+        return assetManager.get(Constants.PLAY_PNG);
+    }
+
+    public Texture getRateTexture(){
+        return assetManager.get(Constants.RATE_PNG);
+    }
+
+    public Texture getSpeakerOnTexture(){
+        return assetManager.get(Constants.SPEAKER_ON_PNG);
+    }
+
+    public Texture getSpeakerOffTexture(){
+        return assetManager.get(Constants.SPEAKER_OFF_PNG);
     }
 
     public Texture getSpaceshipTexture(){
@@ -95,6 +122,10 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public Texture getSpaceBackgroundTexture(){
         return assetManager.get(Constants.SPACE_BACKGROUND_PNG);
+    }
+
+    public Texture getTitleTexture() {
+        return assetManager.get(Constants.TITLE_PNG);
     }
 
     public Texture getGameOverTexture() {

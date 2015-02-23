@@ -29,7 +29,10 @@ public class Spaceship {
     private int fuelLevel;
     private long lastTimeSpaceshipRefueled;
 
-    public Spaceship(){
+    private final boolean isSoundOn;
+
+    public Spaceship(boolean isSoundOn){
+        this.isSoundOn = isSoundOn;
         size = new Vector2(Gdx.graphics.getWidth() / 5, Gdx.graphics.getWidth() / 5);
         position = new Vector2((Gdx.graphics.getWidth()/2) - (size.y/2), Gdx.graphics.getHeight()/15);
         boost = new Vector2(0, 0);
@@ -92,7 +95,9 @@ public class Spaceship {
         if(fuelLevel != 0) {
             sprite.setTexture(spaceshipWithBoostTexture);
             setBoost(2);
-            playBoostSound();
+            if(isSoundOn) {
+                playBoostSound();
+            }
             useFuel();
         }
     }

@@ -20,8 +20,8 @@ public class GameOverScreen implements Screen {
     public void show() {
         batch = new SpriteBatch();
         gameOverSprite = new Sprite(Assets.instance.getGameOverTexture());
-        gameOverSprite.setPosition(0, 0);
-        gameOverSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        gameOverSprite.setPosition(0, Gdx.graphics.getHeight()/4);
+        gameOverSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/3);
     }
 
     @Override
@@ -56,6 +56,6 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        batch.dispose();
     }
 }

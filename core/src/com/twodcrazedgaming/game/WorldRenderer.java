@@ -27,9 +27,11 @@ public class WorldRenderer implements Disposable {
     private WorldController worldController;
     private Spaceship spaceship;
     private Sprite backgroundSprite;
-    private Music spaceMusic;
 
-    public WorldRenderer(){
+    private boolean isSoundOn;
+
+    public WorldRenderer(boolean isSoundOn){
+        this.isSoundOn = isSoundOn;
         init();
     }
 
@@ -40,20 +42,14 @@ public class WorldRenderer implements Disposable {
         camera.update();
 
         initializeBackground();
-        spaceship = new Spaceship();
+        spaceship = new Spaceship(isSoundOn);
         worldController = new WorldController(spaceship);
         Gdx.input.setInputProcessor(worldController);
-        spaceMusic = Assets.instance.getSpaceSound();
-        spaceMusic.setLooping(true);
-        spaceMusic.play();
     }
 
     public void render(){
         renderBackground();
         spaceship.render(batch);
-        if(isSpaceshipOffScreen()){
-            ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
-        }
     }
 
     public void resize(int width, int height){
@@ -64,7 +60,6 @@ public class WorldRenderer implements Disposable {
     @Override
     public void dispose() {
         batch.dispose();
-        spaceMusic.dispose();
     }
 
     private void initializeBackground() {
@@ -79,16 +74,7 @@ public class WorldRenderer implements Disposable {
         batch.end();
     }
 
-    private boolean isSpaceshipOffScreen() {
-        Vector2 spaceshipPosition = spaceship.getPosition();
-        Vector2 spaceshipSize = spaceship.getSize();
-        if(spaceshipPosition.x + spaceshipSize.x < 0 || spaceshipPosition.x > Gdx.graphics.getWidth()){
-            return true;
-        }else if(spaceshipPosition.y + spaceshipSize.y < 0 || spaceshipPosition.y > Gdx.graphics.getHeight()){
-            return true;
-        }else {
-            return false;
-        }
+    public Spaceship getSpaceship() {
+        return spaceship;
     }
-
 }
