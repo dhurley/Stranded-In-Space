@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
+import com.twodcrazedgaming.StrandedInSpace;
 import com.twodcrazedgaming.common.Assets;
 
 /**
@@ -16,6 +17,7 @@ import com.twodcrazedgaming.common.Assets;
  */
 public class MainMenuScreen implements Screen {
     private static final String TAG = GameOverScreen.class.getName();
+    private final Game game;
 
     private SpriteBatch spriteBatch;
 
@@ -32,6 +34,10 @@ public class MainMenuScreen implements Screen {
 
     private Music spaceMusic;
     private boolean isSoundOn = true;
+
+    public MainMenuScreen(Game game) {
+        this.game = game;
+    }
 
     @Override
     public void show() {
@@ -131,7 +137,7 @@ public class MainMenuScreen implements Screen {
         @Override
         public boolean touchDown(float x, float y, int pointer, int button) {
             if(isButtonPressed(playSprite, x, y)){
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen(isSoundOn));
+                game.setScreen(new GameScreen(game, isSoundOn));
                 return true;
             }else if(isButtonPressed(rateSprite, x, y)){
 

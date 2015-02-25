@@ -17,13 +17,15 @@ import com.twodcrazedgaming.game.objects.Spaceship;
  */
 public class GameScreen implements Screen {
     private static final String TAG = GameScreen.class.getName();
+    private final Game game;
 
     private WorldRenderer worldRenderer;
 
     private boolean isSoundOn;
     private boolean paused;
 
-    public GameScreen(boolean isSoundOn){
+    public GameScreen(Game game, boolean isSoundOn){
+        this.game = game;
         this.isSoundOn = isSoundOn;
     }
 
@@ -39,7 +41,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         worldRenderer.render();
         if(isSpaceshipOffScreen()){
-            ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
+            dispose();
+            game.setScreen(new GameOverScreen(game));
         }
     }
 
@@ -71,11 +74,12 @@ public class GameScreen implements Screen {
 
     private boolean isSpaceshipOffScreen() {
         Spaceship spaceship = worldRenderer.getSpaceship();
+        Vector2 worldSize = worldRenderer.getWorldSize();
         Vector2 spaceshipPosition = spaceship.getPosition();
         Vector2 spaceshipSize = spaceship.getSize();
-        if(spaceshipPosition.x + spaceshipSize.x < 0 || spaceshipPosition.x > Gdx.graphics.getWidth()){
+        if(spaceshipPosition.x + spaceshipSize.x < 0 || spaceshipPosition.x > worldSize.x){
             return true;
-        }else if(spaceshipPosition.y + spaceshipSize.y < 0 || spaceshipPosition.y > Gdx.graphics.getHeight()){
+        }else if(spaceshipPosition.y + spaceshipSize.y < 0 || spaceshipPosition.y > worldSize.y){
             return true;
         }else {
             return false;

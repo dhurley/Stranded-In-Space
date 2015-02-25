@@ -4,9 +4,13 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.twodcrazedgaming.common.Assets;
@@ -27,6 +31,8 @@ public class WorldRenderer implements Disposable {
     private WorldController worldController;
     private Spaceship spaceship;
     private Sprite backgroundSprite;
+    private BitmapFont font;
+    private Sprite blackBannerSprite;
 
     private boolean isSoundOn;
 
@@ -42,14 +48,19 @@ public class WorldRenderer implements Disposable {
         camera.update();
 
         initializeBackground();
+        initializeBanner();
         spaceship = new Spaceship(isSoundOn);
         worldController = new WorldController(spaceship);
         Gdx.input.setInputProcessor(worldController);
+
+        font = Assets.instance.getDroidSansFont();
     }
 
     public void render(){
         renderBackground();
         spaceship.render(batch);
+        renderBanner();
+        renderFuelLevel();
     }
 
     public void resize(int width, int height){
@@ -59,7 +70,9 @@ public class WorldRenderer implements Disposable {
 
     @Override
     public void dispose() {
+        spaceship.dispose();
         batch.dispose();
+        worldController.dispose();
     }
 
     private void initializeBackground() {
@@ -68,13 +81,43 @@ public class WorldRenderer implements Disposable {
         backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
+    private void initializeBanner() {
+        blackBannerSprite = new Sprite(Assets.instance.getBlackBannerTexture());
+        blackBannerSprite.setPosition(0, getBannerPositionX());
+        blackBannerSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - getBannerPositionX());
+    }
+
     private void renderBackground() {
         batch.begin();
         backgroundSprite.draw(batch);
         batch.end();
     }
 
+    private void renderBanner() {
+        batch.begin();
+        blackBannerSprite.draw(batch);
+        batch.end();
+    }
+
+    private void renderFuelLevel() {
+        batch.begin();
+        font.draw(batch, "Fuel: " + spaceship.getFuelLevel() + "%", ((3 * Gdx.graphics.getWidth())/4), getFontPositionX());
+        batch.end();
+    }
+
+    private int getBannerPositionX() {
+        return Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/15;
+    }
+
+    private int getFontPositionX() {
+        return Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/30;
+    }
+
     public Spaceship getSpaceship() {
         return spaceship;
+    }
+
+    public Vector2 getWorldSize() {
+        return new Vector2(Gdx.graphics.getWidth(), getBannerPositionX());
     }
 }

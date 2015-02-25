@@ -1,5 +1,6 @@
 package com.twodcrazedgaming.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,9 +13,14 @@ import com.twodcrazedgaming.common.Assets;
  */
 public class GameOverScreen implements Screen {
     private static final String TAG = GameOverScreen.class.getName();
+    private final Game game;
 
     private SpriteBatch batch;
     private Sprite gameOverSprite;
+
+    public GameOverScreen(Game game) {
+        this.game = game;
+    }
 
     @Override
     public void show() {

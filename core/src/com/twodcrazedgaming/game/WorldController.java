@@ -1,12 +1,13 @@
 package com.twodcrazedgaming.game;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.utils.Disposable;
 import com.twodcrazedgaming.game.objects.Spaceship;
 
 /**
  * Created by DJHURLEY on 24/01/2015.
  */
-public class WorldController  implements InputProcessor {
+public class WorldController  implements InputProcessor, Disposable {
     private static final String TAG = WorldController.class.getName();
 
     private Spaceship spaceship;
@@ -55,5 +56,10 @@ public class WorldController  implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    @Override
+    public void dispose() {
+        spaceship.dispose();
     }
 }

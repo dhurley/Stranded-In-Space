@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Disposable;
 import com.twodcrazedgaming.common.Assets;
 
 import java.util.Calendar;
@@ -13,7 +14,7 @@ import java.util.Calendar;
 /**
  * Created by DJHURLEY on 20/01/2015.
  */
-public class Spaceship {
+public class Spaceship implements Disposable {
     private static final String TAG = Spaceship.class.getName();
 
     private Texture spaceshipTexture = Assets.instance.getSpaceshipTexture();
@@ -23,7 +24,6 @@ public class Spaceship {
     private Vector2 position;
     private float rotation;
 
-    private FuelBar fuelBar;
     private Vector2 boost;
     private Sound boostSound;
     private int fuelLevel;
@@ -39,8 +39,6 @@ public class Spaceship {
         rotation = 0;
 
         boostSound = Assets.instance.getBoostSound();
-
-        fuelBar = new FuelBar();
         fuelLevel = 100;
 
         sprite.setSize(size.x, size.y);
@@ -59,8 +57,6 @@ public class Spaceship {
         batch.begin();
         sprite.draw(batch);
         batch.end();
-
-        fuelBar.render(batch);
     }
 
     public Vector2 getSize(){
@@ -131,7 +127,6 @@ public class Spaceship {
     private void useFuel() {
         if(fuelLevel != 0) {
             fuelLevel = fuelLevel - 10;
-            fuelBar.updateFuelBar(fuelLevel);
         }
 
         Gdx.app.debug(TAG, "fuel used. fuel level is now: " + fuelLevel);
@@ -145,9 +140,17 @@ public class Spaceship {
     private void refuel(){
         if(fuelLevel != 100) {
             fuelLevel = fuelLevel + 10;
-            fuelBar.updateFuelBar(fuelLevel);
         }
 
         Gdx.app.debug(TAG, "refueling. fuel level is now: " + fuelLevel);
+    }
+
+    @Override
+    public void dispose() {
+        boostSound.dispose();
+    }
+
+    public int getFuelLevel() {
+        return fuelLevel;
     }
 }
