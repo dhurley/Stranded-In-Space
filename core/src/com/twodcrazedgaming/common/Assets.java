@@ -41,6 +41,8 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load(Constants.RATE_PNG, Texture.class);
         assetManager.load(Constants.SPEAKER_ON_PNG, Texture.class);
         assetManager.load(Constants.SPEAKER_OFF_PNG, Texture.class);
+        assetManager.load(Constants.HOME_PNG, Texture.class);
+        assetManager.load(Constants.REPLAY_PNG, Texture.class);
 
         assetManager.load(Constants.SPACESHIP_PNG, Texture.class);
         assetManager.load(Constants.SPACESHIP_WITH_BOOST_PNG, Texture.class);
@@ -102,6 +104,14 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public Texture getSpeakerOffTexture(){
         return assetManager.get(Constants.SPEAKER_OFF_PNG);
+    }
+
+    public Texture getHomeTexture(){
+        return assetManager.get(Constants.HOME_PNG);
+    }
+
+    public Texture getReplayTexture(){
+        return assetManager.get(Constants.REPLAY_PNG);
     }
 
     public Texture getSpaceshipTexture(){

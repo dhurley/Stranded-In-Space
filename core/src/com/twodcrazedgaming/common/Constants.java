@@ -13,6 +13,8 @@ public class Constants {
     public static final String RATE_PNG = "images/icons/rate.png";
     public static final String SPEAKER_ON_PNG = "images/icons/speaker_on.png";
     public static final String SPEAKER_OFF_PNG = "images/icons/speaker_off.png";
+    public static final String HOME_PNG = "images/icons/home.png";
+    public static final String REPLAY_PNG = "images/icons/replay.png";
 
     //game objects
     public static final String SPACESHIP_PNG = "images/spaceship.png";

@@ -5,7 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.twodcrazedgaming.common.Assets;
-import com.twodcrazedgaming.screens.GameScreen;
+import com.twodcrazedgaming.screens.GameOverScreen;
 import com.twodcrazedgaming.screens.MainMenuScreen;
 
 /**

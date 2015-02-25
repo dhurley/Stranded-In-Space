@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
         worldRenderer.render();
         if(isSpaceshipOffScreen()){
             dispose();
-            game.setScreen(new GameOverScreen(game));
+            game.setScreen(new GameOverScreen(game, isSoundOn));
         }
     }
 
