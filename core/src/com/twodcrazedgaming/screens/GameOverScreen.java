@@ -120,7 +120,7 @@ public class GameOverScreen implements Screen {
         @Override
         public boolean touchDown(float x, float y, int pointer, int button) {
             if(isButtonPressed(homeSprite, x, y)){
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new MainMenuScreen(game, isSoundOn));
                 return true;
             }else if(isButtonPressed(replaySprite, x, y)){
                 game.setScreen(new GameScreen(game, isSoundOn));

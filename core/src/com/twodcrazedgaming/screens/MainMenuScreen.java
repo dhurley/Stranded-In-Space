@@ -33,10 +33,11 @@ public class MainMenuScreen implements Screen {
     private int screenHeight;
 
     private Music spaceMusic;
-    private boolean isSoundOn = true;
+    private boolean isSoundOn;
 
-    public MainMenuScreen(Game game) {
+    public MainMenuScreen(Game game, boolean isSoundOn) {
         this.game = game;
+        this.isSoundOn = isSoundOn;
     }
 
     @Override
@@ -70,13 +71,21 @@ public class MainMenuScreen implements Screen {
         leaderboardSprite.setSize(iconWidth, iconHeight);
         leaderboardSprite.setPosition(screenWidth*0.04f*3 + iconWidth*2, iconHeight);
 
-        speakerSprite = new Sprite(Assets.instance.getSpeakerOnTexture());
+        if(isSoundOn) {
+            speakerSprite = new Sprite(Assets.instance.getSpeakerOnTexture());
+        }else{
+            speakerSprite = new Sprite(Assets.instance.getSpeakerOffTexture());
+        }
         speakerSprite.setSize(iconWidth, iconHeight);
         speakerSprite.setPosition(screenWidth*0.04f*4 + iconWidth*3, iconHeight);
 
         spaceMusic = Assets.instance.getSpaceSound();
         spaceMusic.setLooping(true);
-        spaceMusic.play();
+        if(isSoundOn) {
+            spaceMusic.play();
+        }else{
+            spaceMusic.stop();
+        }
 
         Gdx.input.setInputProcessor(new GestureDetector(new MainMenuGestureListener()));
     }

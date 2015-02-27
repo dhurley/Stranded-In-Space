@@ -17,6 +17,6 @@ public class StrandedInSpace extends Game {
     public void create() {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         Assets.instance.init(new AssetManager());
-        setScreen(new MainMenuScreen(this));
+        setScreen(new MainMenuScreen(this, true));
     }
 }
