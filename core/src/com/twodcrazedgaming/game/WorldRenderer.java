@@ -30,6 +30,9 @@ public class WorldRenderer implements Disposable {
     private SpriteBatch batch;
     private WorldController worldController;
     private Spaceship spaceship;
+    private AsteroidGenerator asteroidGenerator;
+    private int noOfAsteroids = 10;
+
     private Sprite backgroundSprite;
     private BitmapFont font;
     private Sprite blackBannerSprite;
@@ -50,6 +53,12 @@ public class WorldRenderer implements Disposable {
         initializeBackground();
         initializeBanner();
         spaceship = new Spaceship(isSoundOn);
+
+        asteroidGenerator = new AsteroidGenerator(getWorldSize(), noOfAsteroids);
+        for(int x = 1; x <= noOfAsteroids; x++){
+            asteroidGenerator.createAsteroid();
+        }
+
         worldController = new WorldController(spaceship);
         Gdx.input.setInputProcessor(worldController);
 
@@ -59,6 +68,7 @@ public class WorldRenderer implements Disposable {
     public void render(){
         renderBackground();
         spaceship.render(batch);
+        asteroidGenerator.render(batch);
         renderBanner();
         renderFuelLevel();
     }

@@ -20,6 +20,7 @@ public class Constants {
     public static final String SPACESHIP_PNG = "images/spaceship.png";
     public static final String SPACESHIP_WITH_BOOST_PNG = "images/spaceship_with_boost.png";
     public static final String SPACE_BACKGROUND_PNG = "images/space_background.png";
+    public static final String ASTEROID_PNG = "images/asteroid.png";
 
     //text
     public static final String TITLE_PNG = "images/title.png";

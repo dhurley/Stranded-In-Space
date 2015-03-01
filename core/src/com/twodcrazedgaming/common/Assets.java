@@ -47,6 +47,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load(Constants.SPACESHIP_PNG, Texture.class);
         assetManager.load(Constants.SPACESHIP_WITH_BOOST_PNG, Texture.class);
         assetManager.load(Constants.SPACE_BACKGROUND_PNG, Texture.class);
+        assetManager.load(Constants.ASTEROID_PNG, Texture.class);
 
         assetManager.load(Constants.TITLE_PNG, Texture.class);
         assetManager.load(Constants.GAME_OVER_PNG, Texture.class);
@@ -120,6 +121,10 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public Texture getSpaceShipWithBoostTexture(){
         return assetManager.get(Constants.SPACESHIP_WITH_BOOST_PNG);
+    }
+
+    public Texture getAsteroidTexture(){
+        return assetManager.get(Constants.ASTEROID_PNG);
     }
 
     public Texture getSpaceBackgroundTexture(){
