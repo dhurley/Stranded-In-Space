@@ -20,12 +20,13 @@ public class Spaceship implements Disposable {
     private Texture spaceshipTexture = Assets.instance.getSpaceshipTexture();
     private Texture spaceshipWithBoostTexture = Assets.instance.getSpaceShipWithBoostTexture();
     private Sprite sprite = new Sprite(spaceshipTexture);
+    private Sound boostSound;
+
     private Vector2 size;
     private Vector2 position;
     private float rotation;
-
     private Vector2 boost;
-    private Sound boostSound;
+
     private int fuelLevel;
     private long lastTimeSpaceshipRefueled;
 

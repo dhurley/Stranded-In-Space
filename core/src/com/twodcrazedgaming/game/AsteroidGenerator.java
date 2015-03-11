@@ -19,11 +19,13 @@ public class AsteroidGenerator {
     private final Vector2 worldSize;
     private final int noOfAsteroids;
     private List<Asteroid> asteroids;
+    private long score;
 
     public AsteroidGenerator(final Vector2 worldSize, final int noOfAsteroids){
         asteroids = new ArrayList<Asteroid>();
         this.worldSize = worldSize;
         this.noOfAsteroids = noOfAsteroids;
+        score = 0;
     }
 
     public void createAsteroid(){
@@ -54,6 +56,7 @@ public class AsteroidGenerator {
             if(isAsteroidOffScreen(asteroid)){
                 Gdx.app.debug(TAG, "Asteroid destroyed.");
                 iterator.remove();
+                score++;
             }
         }
 
@@ -72,5 +75,9 @@ public class AsteroidGenerator {
         }else {
             return false;
         }
+    }
+
+    public long getScore() {
+        return score;
     }
 }

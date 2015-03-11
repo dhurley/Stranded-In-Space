@@ -7,6 +7,8 @@ public class Constants {
     public static final float VIEWPORT_WIDTH = 5.0f;
     public static final float VIEWPORT_HEIGHT = 5.0f;
 
+    public static final String TITLE = "Stranded In Space";
+
     //icons
     public static final String LEADERBOARD_PNG = "images/icons/leaderboard.png";
     public static final String PLAY_PNG = "images/icons/play.png";

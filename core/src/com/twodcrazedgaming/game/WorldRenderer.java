@@ -1,23 +1,15 @@
 package com.twodcrazedgaming.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.twodcrazedgaming.common.Assets;
 import com.twodcrazedgaming.common.Constants;
 import com.twodcrazedgaming.game.objects.Spaceship;
-import com.twodcrazedgaming.screens.GameOverScreen;
-import com.twodcrazedgaming.screens.GameScreen;
 
 /**
  * Created by DJHURLEY on 20/01/2015.
@@ -70,6 +62,7 @@ public class WorldRenderer implements Disposable {
         spaceship.render(batch);
         asteroidGenerator.render(batch);
         renderBanner();
+        renderScore();
         renderFuelLevel();
     }
 
@@ -93,8 +86,8 @@ public class WorldRenderer implements Disposable {
 
     private void initializeBanner() {
         blackBannerSprite = new Sprite(Assets.instance.getBlackBannerTexture());
-        blackBannerSprite.setPosition(0, getBannerPositionX());
-        blackBannerSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - getBannerPositionX());
+        blackBannerSprite.setPosition(0, getBannerPositionY());
+        blackBannerSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - getBannerPositionY());
     }
 
     private void renderBackground() {
@@ -109,17 +102,23 @@ public class WorldRenderer implements Disposable {
         batch.end();
     }
 
-    private void renderFuelLevel() {
+    private void renderScore() {
         batch.begin();
-        font.draw(batch, "Fuel: " + spaceship.getFuelLevel() + "%", ((3 * Gdx.graphics.getWidth())/4), getFontPositionX());
+        font.draw(batch, "Score: " + asteroidGenerator.getScore(), Gdx.graphics.getWidth()/12, getFontPositionY());
         batch.end();
     }
 
-    private int getBannerPositionX() {
+    private void renderFuelLevel() {
+        batch.begin();
+        font.draw(batch, "Fuel: " + spaceship.getFuelLevel() + "%", ((3 * Gdx.graphics.getWidth())/4), getFontPositionY());
+        batch.end();
+    }
+
+    private int getBannerPositionY() {
         return Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/15;
     }
 
-    private int getFontPositionX() {
+    private int getFontPositionY() {
         return Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/30;
     }
 
@@ -128,6 +127,6 @@ public class WorldRenderer implements Disposable {
     }
 
     public Vector2 getWorldSize() {
-        return new Vector2(Gdx.graphics.getWidth(), getBannerPositionX());
+        return new Vector2(Gdx.graphics.getWidth(), getBannerPositionY());
     }
 }
