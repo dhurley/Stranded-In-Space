@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.twodcrazedgaming.common.Assets;
 
@@ -63,5 +64,9 @@ public class Asteroid {
         position.y = position.y + velocity.y;
         position.x = position.x + velocity.x;
         sprite.setPosition(position.x, position.y);
+    }
+
+    public Rectangle getBoundingRectangle() {
+        return sprite.getBoundingRectangle();
     }
 }

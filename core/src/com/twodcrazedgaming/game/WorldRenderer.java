@@ -9,7 +9,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.twodcrazedgaming.common.Assets;
 import com.twodcrazedgaming.common.Constants;
+import com.twodcrazedgaming.game.objects.Asteroid;
 import com.twodcrazedgaming.game.objects.Spaceship;
+
+import java.util.List;
 
 /**
  * Created by DJHURLEY on 20/01/2015.
@@ -128,5 +131,9 @@ public class WorldRenderer implements Disposable {
 
     public Vector2 getWorldSize() {
         return new Vector2(Gdx.graphics.getWidth(), getBannerPositionY());
+    }
+
+    public List<Asteroid> getAsteroids() {
+        return asteroidGenerator.getAsteroids();
     }
 }

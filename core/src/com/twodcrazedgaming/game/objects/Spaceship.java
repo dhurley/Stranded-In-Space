@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.twodcrazedgaming.common.Assets;
@@ -66,6 +67,10 @@ public class Spaceship implements Disposable {
 
     public Vector2 getPosition(){
         return position;
+    }
+
+    public Rectangle getBoundingRectangle(){
+        return sprite.getBoundingRectangle();
     }
 
     private void handleTurning() {

@@ -7,10 +7,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.twodcrazedgaming.common.Assets;
 import com.twodcrazedgaming.game.WorldRenderer;
+import com.twodcrazedgaming.game.objects.Asteroid;
 import com.twodcrazedgaming.game.objects.Spaceship;
+
+import java.util.List;
 
 /**
  * Created by DJHURLEY on 25/01/2015.
@@ -40,7 +44,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         worldRenderer.render();
-        if(isSpaceshipOffScreen()){
+        if(isSpaceshipOffScreen() || isSpaceshipCollidingWithAsteroid()){
             dispose();
             game.setScreen(new GameOverScreen(game, isSoundOn));
         }
@@ -84,5 +88,18 @@ public class GameScreen implements Screen {
         }else {
             return false;
         }
+    }
+
+    public boolean isSpaceshipCollidingWithAsteroid() {
+        Spaceship spaceship = worldRenderer.getSpaceship();
+        List<Asteroid> asteroids = worldRenderer.getAsteroids();
+        Rectangle spaceshipBoundingRectangle = spaceship.getBoundingRectangle();
+        for(Asteroid asteroid: asteroids){
+            if(spaceshipBoundingRectangle.overlaps(asteroid.getBoundingRectangle())){
+                return true;
+            }
+        }
+
+        return false;
     }
 }

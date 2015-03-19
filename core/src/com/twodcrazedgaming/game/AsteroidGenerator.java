@@ -37,8 +37,9 @@ public class AsteroidGenerator {
         float randomPositionX = MathUtils.random(size.x, Gdx.graphics.getWidth() - size.x);
         Vector2 position = new Vector2(randomPositionX, Gdx.graphics.getHeight());
 
-        float randomVelocityY = MathUtils.random(-0.1f, -3);
-        Vector2 velocity = new Vector2(0, randomVelocityY);
+        float randomVelocityX = MathUtils.random(-0.5f, 0.5f);
+        float randomVelocityY = MathUtils.random(-0.1f, -2);
+        Vector2 velocity = new Vector2(randomVelocityX, randomVelocityY);
 
         float rotation = MathUtils.random(1, 5);
 
@@ -79,5 +80,9 @@ public class AsteroidGenerator {
 
     public long getScore() {
         return score;
+    }
+    
+    public List<Asteroid> getAsteroids() {
+        return asteroids;
     }
 }
