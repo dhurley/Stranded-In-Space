@@ -81,7 +81,7 @@ public class AsteroidGenerator {
     public long getScore() {
         return score;
     }
-    
+
     public List<Asteroid> getAsteroids() {
         return asteroids;
     }

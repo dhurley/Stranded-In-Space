@@ -1,19 +1,21 @@
 package com.twodcrazedgaming.screens;
 
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.twodcrazedgaming.common.Assets;
+import com.twodcrazedgaming.game.CollisionDetector;
 import com.twodcrazedgaming.game.WorldRenderer;
 import com.twodcrazedgaming.game.objects.Asteroid;
 import com.twodcrazedgaming.game.objects.Spaceship;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -93,10 +95,14 @@ public class GameScreen implements Screen {
     public boolean isSpaceshipCollidingWithAsteroid() {
         Spaceship spaceship = worldRenderer.getSpaceship();
         List<Asteroid> asteroids = worldRenderer.getAsteroids();
-        Rectangle spaceshipBoundingRectangle = spaceship.getBoundingRectangle();
+        List<Polygon> spaceshipShapes = spaceship.getPolygonShapes();
+
         for(Asteroid asteroid: asteroids){
-            if(spaceshipBoundingRectangle.overlaps(asteroid.getBoundingRectangle())){
-                return true;
+            Circle asteroidShape = asteroid.getCircleShape();
+            for(Polygon spaceshipShape: spaceshipShapes){
+                if(CollisionDetector.isColliding(spaceshipShape, asteroidShape)){
+                    return true;
+                }
             }
         }
 

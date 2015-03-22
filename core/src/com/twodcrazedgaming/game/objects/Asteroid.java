@@ -4,9 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.twodcrazedgaming.common.Assets;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by DJHURLEY on 01/03/2015.
@@ -21,6 +28,8 @@ public class Asteroid {
     private float rotation;
 
     private Sprite sprite;
+
+    private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     public Asteroid(final Vector2 size, final Vector2 position, final Vector2 velocity, final float rotation){
         this.size = size;
@@ -42,6 +51,11 @@ public class Asteroid {
         batch.begin();
         sprite.draw(batch);
         batch.end();
+
+        shapeRenderer.setAutoShapeType(true);
+        shapeRenderer.begin();
+        shapeRenderer.circle(getCircleShape().x, getCircleShape().y, getCircleShape().radius);
+        shapeRenderer.end();
     }
 
     public Vector2 getSize(){
@@ -66,7 +80,8 @@ public class Asteroid {
         sprite.setPosition(position.x, position.y);
     }
 
-    public Rectangle getBoundingRectangle() {
-        return sprite.getBoundingRectangle();
+    public Circle getCircleShape() {
+        Circle shape = new Circle(new Vector2(position.x + size.x / 2, position.y + size.y / 2), size.x / 2);
+        return shape;
     }
 }
