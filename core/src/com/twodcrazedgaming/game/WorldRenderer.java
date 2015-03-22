@@ -136,4 +136,8 @@ public class WorldRenderer implements Disposable {
     public List<Asteroid> getAsteroids() {
         return asteroidGenerator.getAsteroids();
     }
+
+    public long getScore(){
+        return asteroidGenerator.getScore();
+    }
 }

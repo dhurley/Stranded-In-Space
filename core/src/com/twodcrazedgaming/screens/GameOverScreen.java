@@ -30,10 +30,12 @@ public class GameOverScreen implements Screen {
     private int screenWidth;
     private int screenHeight;
     private boolean isSoundOn;
+    private long score = 0;
 
-    public GameOverScreen(Game game, boolean isSoundOn) {
+    public GameOverScreen(Game game, boolean isSoundOn, long score) {
         this.game = game;
         this.isSoundOn = isSoundOn;
+        this.score = score;
     }
 
     @Override
@@ -46,32 +48,32 @@ public class GameOverScreen implements Screen {
         initializeGameOverSprite();
         font = Assets.instance.getDroidSansFont();
 
-        int iconWidth = screenWidth/5;
-        int iconHeight = screenWidth/5;
+        int iconWidth = screenWidth / 5;
+        int iconHeight = screenWidth / 5;
 
         homeSprite = new Sprite(Assets.instance.getHomeTexture());
         homeSprite.setSize(iconWidth, iconHeight);
-        homeSprite.setPosition(screenWidth*0.04f, iconHeight);
+        homeSprite.setPosition(screenWidth * 0.04f, iconHeight);
 
         replaySprite = new Sprite(Assets.instance.getReplayTexture());
         replaySprite.setSize(iconWidth, iconHeight);
-        replaySprite.setPosition(screenWidth*0.04f*2 + iconWidth, iconHeight);
+        replaySprite.setPosition(screenWidth * 0.04f * 2 + iconWidth, iconHeight);
 
         rateSprite = new Sprite(Assets.instance.getRateTexture());
         rateSprite.setSize(iconWidth, iconHeight);
-        rateSprite.setPosition(screenWidth*0.04f*3 + iconWidth*2, iconHeight);
+        rateSprite.setPosition(screenWidth * 0.04f * 3 + iconWidth * 2, iconHeight);
 
         leaderboardSprite = new Sprite(Assets.instance.getLeaderboardTexture());
         leaderboardSprite.setSize(iconWidth, iconHeight);
-        leaderboardSprite.setPosition(screenWidth*0.04f*4 + iconWidth*3, iconHeight);
+        leaderboardSprite.setPosition(screenWidth * 0.04f * 4 + iconWidth * 3, iconHeight);
 
         Gdx.input.setInputProcessor(new GestureDetector(new GameOverGestureListener()));
     }
 
     private void initializeGameOverSprite() {
         gameOverSprite = new Sprite(Assets.instance.getGameOverTexture());
-        gameOverSprite.setPosition(0, 3*screenHeight/4);
-        gameOverSprite.setSize(screenWidth, screenHeight/4);
+        gameOverSprite.setPosition(0, 3 * screenHeight / 4);
+        gameOverSprite.setSize(screenWidth, screenHeight / 4);
     }
 
     @Override
@@ -81,7 +83,8 @@ public class GameOverScreen implements Screen {
 
         batch.begin();
         gameOverSprite.draw(batch);
-        font.draw(batch, "You are stranded in space forever.", (screenWidth/5), 2*screenHeight/3);
+        font.draw(batch, "You are stranded in space forever.", (screenWidth / 5), 2 * screenHeight / 3);
+        font.draw(batch, "Score: " + score, (3 * screenWidth / 7), 3 * screenHeight / 5);
         homeSprite.draw(batch);
         replaySprite.draw(batch);
         rateSprite.draw(batch);
@@ -119,16 +122,16 @@ public class GameOverScreen implements Screen {
 
         @Override
         public boolean touchDown(float x, float y, int pointer, int button) {
-            if(isButtonPressed(homeSprite, x, y)){
+            if (isButtonPressed(homeSprite, x, y)) {
                 game.setScreen(new MainMenuScreen(game, isSoundOn));
                 return true;
-            }else if(isButtonPressed(replaySprite, x, y)){
+            } else if (isButtonPressed(replaySprite, x, y)) {
                 game.setScreen(new GameScreen(game, isSoundOn));
                 return true;
-            }else if(isButtonPressed(rateSprite, x, y)){
+            } else if (isButtonPressed(rateSprite, x, y)) {
 
                 return true;
-            }else if(isButtonPressed(leaderboardSprite, x, y)){
+            } else if (isButtonPressed(leaderboardSprite, x, y)) {
 
                 return true;
             }

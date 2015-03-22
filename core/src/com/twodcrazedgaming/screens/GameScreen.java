@@ -48,7 +48,7 @@ public class GameScreen implements Screen {
         worldRenderer.render();
         if(isSpaceshipOffScreen() || isSpaceshipCollidingWithAsteroid()){
             dispose();
-            game.setScreen(new GameOverScreen(game, isSoundOn));
+            game.setScreen(new GameOverScreen(game, isSoundOn, worldRenderer.getScore()));
         }
     }
 
