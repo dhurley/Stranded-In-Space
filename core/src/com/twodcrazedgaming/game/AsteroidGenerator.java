@@ -17,34 +17,54 @@ public class AsteroidGenerator {
     private static final String TAG = AsteroidGenerator.class.getName();
 
     private final Vector2 worldSize;
-    private final int noOfAsteroids;
     private List<Asteroid> asteroids;
     private long score;
 
-    public AsteroidGenerator(final Vector2 worldSize, final int noOfAsteroids){
+    public AsteroidGenerator(final Vector2 worldSize){
         asteroids = new ArrayList<Asteroid>();
         this.worldSize = worldSize;
-        this.noOfAsteroids = noOfAsteroids;
         score = 0;
     }
 
     public void createAsteroid(){
+        Asteroid asteroid;
+
+        while(true) {
+            float randomSizeRatio = MathUtils.random(12, 15);
+            Vector2 size = new Vector2(Gdx.graphics.getWidth() / randomSizeRatio, Gdx.graphics.getWidth() / randomSizeRatio);
+
+            float randomPositionX = MathUtils.random(size.x, Gdx.graphics.getWidth() - size.x);
+            Vector2 position = new Vector2(randomPositionX, Gdx.graphics.getHeight());
+
+            float randomVelocityX = MathUtils.random(-0.5f, 0.5f);
+            float randomVelocityY = MathUtils.random(-0.5f, -2);
+            Vector2 velocity = new Vector2(randomVelocityX, randomVelocityY);
+
+            float rotation = MathUtils.random(1, 3);
+
+            asteroid = new Asteroid(size, position, velocity, rotation);
+
+            if(!isCollidingWithOtherAsteroids(asteroid)){
+                break;
+            }
+
+        }
+
         Gdx.app.debug(TAG, "Asteroid created.");
-
-        float randomSizeRatio = MathUtils.random(12, 15);
-        Vector2 size = new Vector2(Gdx.graphics.getWidth() / randomSizeRatio, Gdx.graphics.getWidth() / randomSizeRatio);
-
-        float randomPositionX = MathUtils.random(size.x, Gdx.graphics.getWidth() - size.x);
-        Vector2 position = new Vector2(randomPositionX, Gdx.graphics.getHeight());
-
-        float randomVelocityX = MathUtils.random(-0.5f, 0.5f);
-        float randomVelocityY = MathUtils.random(-0.1f, -2);
-        Vector2 velocity = new Vector2(randomVelocityX, randomVelocityY);
-
-        float rotation = MathUtils.random(1, 5);
-
-        Asteroid asteroid = new Asteroid(size, position, velocity, rotation);
         asteroids.add(asteroid);
+    }
+
+    private boolean isCollidingWithOtherAsteroids(Asteroid asteroid) {
+        Iterator<Asteroid> iterator = asteroids.iterator();
+        while (iterator.hasNext()) {
+            Asteroid existingAsteroid = iterator.next();
+
+            if(CollisionDetector.isColliding(existingAsteroid.getCircleShape(), asteroid.getCircleShape())){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void render(final SpriteBatch batch){
@@ -59,10 +79,6 @@ public class AsteroidGenerator {
                 iterator.remove();
                 score++;
             }
-        }
-
-        while(noOfAsteroids != asteroids.size()){
-            createAsteroid();
         }
     }
 

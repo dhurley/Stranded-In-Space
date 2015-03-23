@@ -27,8 +27,7 @@ public class CollisionDetector {
         return false;
     }
 
-    public static boolean isColliding(Ellipse ellipse, Circle circle) {
-
-        return false;
+    public static boolean isColliding(Circle circle1, Circle circle2) {
+        return Intersector.overlaps(circle1, circle2);
     }
 }

@@ -12,6 +12,7 @@ import com.twodcrazedgaming.common.Constants;
 import com.twodcrazedgaming.game.objects.Asteroid;
 import com.twodcrazedgaming.game.objects.Spaceship;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -26,13 +27,14 @@ public class WorldRenderer implements Disposable {
     private WorldController worldController;
     private Spaceship spaceship;
     private AsteroidGenerator asteroidGenerator;
-    private int noOfAsteroids = 10;
+    private int maxNoOfAsteroids = 10;
 
     private Sprite backgroundSprite;
     private BitmapFont font;
     private Sprite blackBannerSprite;
 
     private boolean isSoundOn;
+    private long timeSinceLastAsteroidCreated;
 
     public WorldRenderer(boolean isSoundOn){
         this.isSoundOn = isSoundOn;
@@ -49,10 +51,9 @@ public class WorldRenderer implements Disposable {
         initializeBanner();
         spaceship = new Spaceship(isSoundOn);
 
-        asteroidGenerator = new AsteroidGenerator(getWorldSize(), noOfAsteroids);
-        for(int x = 1; x <= noOfAsteroids; x++){
-            asteroidGenerator.createAsteroid();
-        }
+        asteroidGenerator = new AsteroidGenerator(getWorldSize());
+        asteroidGenerator.createAsteroid();
+        timeSinceLastAsteroidCreated = Calendar.getInstance().getTimeInMillis();
 
         worldController = new WorldController(spaceship);
         Gdx.input.setInputProcessor(worldController);
@@ -61,6 +62,8 @@ public class WorldRenderer implements Disposable {
     }
 
     public void render(){
+        generateNewAsteroid();
+
         renderBackground();
         spaceship.render(batch);
         asteroidGenerator.render(batch);
@@ -79,6 +82,14 @@ public class WorldRenderer implements Disposable {
         spaceship.dispose();
         batch.dispose();
         worldController.dispose();
+    }
+
+    private void generateNewAsteroid() {
+        long currentTime = Calendar.getInstance().getTimeInMillis();
+        if (asteroidGenerator.getAsteroids().size() < maxNoOfAsteroids && currentTime - timeSinceLastAsteroidCreated > 1000) {
+            timeSinceLastAsteroidCreated = currentTime;
+            asteroidGenerator.createAsteroid();
+        }
     }
 
     private void initializeBackground() {
