@@ -84,4 +84,12 @@ public class Asteroid {
         Circle shape = new Circle(new Vector2(position.x + size.x / 2, position.y + size.y / 2), size.x / 2);
         return shape;
     }
+
+    public Vector2 getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Vector2 velocity) {
+        this.velocity = velocity;
+    }
 }

@@ -54,23 +54,14 @@ public class AsteroidGenerator {
         asteroids.add(asteroid);
     }
 
-    private boolean isCollidingWithOtherAsteroids(Asteroid asteroid) {
-        Iterator<Asteroid> iterator = asteroids.iterator();
-        while (iterator.hasNext()) {
-            Asteroid existingAsteroid = iterator.next();
-
-            if(CollisionDetector.isColliding(existingAsteroid.getCircleShape(), asteroid.getCircleShape())){
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public void render(final SpriteBatch batch){
         Iterator<Asteroid> iterator = asteroids.iterator();
         while (iterator.hasNext()) {
             Asteroid asteroid = iterator.next();
+
+            if(isCollidingWithOtherAsteroids(asteroid)){
+                applyCollisionVelocity(asteroid);
+            }
 
             asteroid.render(batch);
 
@@ -80,6 +71,51 @@ public class AsteroidGenerator {
                 score++;
             }
         }
+    }
+
+    private boolean isCollidingWithOtherAsteroids(Asteroid asteroid) {
+        Iterator<Asteroid> iterator = asteroids.iterator();
+        while (iterator.hasNext()) {
+            Asteroid existingAsteroid = iterator.next();
+
+            if(existingAsteroid == asteroid){
+                continue;
+            }
+
+            if(CollisionDetector.isColliding(existingAsteroid.getCircleShape(), asteroid.getCircleShape())){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean applyCollisionVelocity(Asteroid asteroid) {
+        Iterator<Asteroid> iterator = asteroids.iterator();
+        while (iterator.hasNext()) {
+            Asteroid existingAsteroid = iterator.next();
+
+            if(existingAsteroid == asteroid){
+                continue;
+            }
+
+            if(CollisionDetector.isColliding(existingAsteroid.getCircleShape(), asteroid.getCircleShape())){
+                Vector2 asteroidVelocity = asteroid.getVelocity();
+                Vector2 existingAsteroidVelocity = existingAsteroid.getVelocity();
+                float asteroidSize = asteroid.getSize().x;
+                float existingAsteroidSize = existingAsteroid.getSize().x;
+
+                float newVelocityX1 = (asteroidVelocity.x * (asteroidSize - existingAsteroidSize) + (2 * existingAsteroidSize * existingAsteroidVelocity.x)) / (asteroidSize + existingAsteroidSize);
+                float newVelocityY1 = (asteroidVelocity.y * (asteroidSize - existingAsteroidSize) + (2 * existingAsteroidSize * existingAsteroidVelocity.y)) / (asteroidSize + existingAsteroidSize);
+                float newVelocityX2 = (existingAsteroidVelocity.x * (existingAsteroidSize - asteroidSize) + (2 * asteroidSize * asteroidVelocity.x)) / (asteroidSize + existingAsteroidSize);
+                float newVelocityY2 = (existingAsteroidVelocity.y * (existingAsteroidSize - asteroidSize) + (2 * asteroidSize * asteroidVelocity.y)) / (asteroidSize + existingAsteroidSize);
+
+                asteroid.setVelocity(new Vector2(newVelocityX1, newVelocityY1));
+                existingAsteroid.setVelocity(new Vector2(newVelocityX2, newVelocityY2));
+            }
+        }
+
+        return false;
     }
 
     private boolean isAsteroidOffScreen(final Asteroid asteroid) {
