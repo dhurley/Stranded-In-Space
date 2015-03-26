@@ -35,4 +35,7 @@ public class Constants {
 
     //fonts
     public static final String DROID_SANS_TTF = "fonts/DroidSans.ttf";
+
+    //sprite sheets
+    public static final String EXPLOSION_PNG = "sprite_sheets/explosion.png";
 }

@@ -67,13 +67,6 @@ public class Spaceship implements Disposable {
         batch.begin();
         sprite.draw(batch);
         batch.end();
-
-        shapeRenderer.setAutoShapeType(true);
-        shapeRenderer.begin();
-        for(Polygon shape: getPolygonShapes()){
-            shapeRenderer.polygon(shape.getTransformedVertices());
-        }
-        shapeRenderer.end();
     }
 
     public Vector2 getSize() {

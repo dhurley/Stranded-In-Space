@@ -51,11 +51,6 @@ public class Asteroid {
         batch.begin();
         sprite.draw(batch);
         batch.end();
-
-        shapeRenderer.setAutoShapeType(true);
-        shapeRenderer.begin();
-        shapeRenderer.circle(getCircleShape().x, getCircleShape().y, getCircleShape().radius);
-        shapeRenderer.end();
     }
 
     public Vector2 getSize(){

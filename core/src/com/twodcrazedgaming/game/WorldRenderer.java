@@ -5,11 +5,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.twodcrazedgaming.common.Assets;
 import com.twodcrazedgaming.common.Constants;
 import com.twodcrazedgaming.game.objects.Asteroid;
+import com.twodcrazedgaming.game.objects.Explosion;
 import com.twodcrazedgaming.game.objects.Spaceship;
 
 import java.util.Calendar;
@@ -26,6 +29,7 @@ public class WorldRenderer implements Disposable {
     private SpriteBatch batch;
     private WorldController worldController;
     private Spaceship spaceship;
+    private Explosion explosion;
     private AsteroidGenerator asteroidGenerator;
     private int maxNoOfAsteroids = 10;
 
@@ -65,7 +69,16 @@ public class WorldRenderer implements Disposable {
         generateNewAsteroid();
 
         renderBackground();
-        spaceship.render(batch);
+
+        if(isSpaceshipCollidingWithAsteroid()){
+            if(explosion == null){
+                explosion = new Explosion(spaceship.getPosition(), spaceship.getSize());
+            }
+            explosion.render(batch);
+        }else {
+            spaceship.render(batch);
+        }
+
         asteroidGenerator.render(batch);
         renderBanner();
         renderScore();
@@ -82,6 +95,51 @@ public class WorldRenderer implements Disposable {
         spaceship.dispose();
         batch.dispose();
         worldController.dispose();
+    }
+
+    public boolean isSpaceshipOffScreen() {
+        Vector2 worldSize = getWorldSize();
+        Vector2 spaceshipPosition = spaceship.getPosition();
+        Vector2 spaceshipSize = spaceship.getSize();
+        if(spaceshipPosition.x + spaceshipSize.x < 0 || spaceshipPosition.x > worldSize.x){
+            return true;
+        }else if(spaceshipPosition.y + spaceshipSize.y < 0 || spaceshipPosition.y > worldSize.y){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean isSpaceshipCollidingWithAsteroid() {
+        List<Asteroid> asteroids = getAsteroids();
+        List<Polygon> spaceshipShapes = spaceship.getPolygonShapes();
+
+        for(Asteroid asteroid: asteroids){
+            Circle asteroidShape = asteroid.getCircleShape();
+            for(Polygon spaceshipShape: spaceshipShapes){
+                if(CollisionDetector.isColliding(spaceshipShape, asteroidShape)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isGameOver() {
+        if(explosion == null){
+            return isSpaceshipOffScreen();
+        }else {
+            return isSpaceshipOffScreen() || explosion.isEndOfAnimation();
+        }
+    }
+
+    public List<Asteroid> getAsteroids() {
+        return asteroidGenerator.getAsteroids();
+    }
+
+    public long getScore(){
+        return asteroidGenerator.getScore();
     }
 
     private void generateNewAsteroid() {
@@ -136,19 +194,7 @@ public class WorldRenderer implements Disposable {
         return Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/30;
     }
 
-    public Spaceship getSpaceship() {
-        return spaceship;
-    }
-
-    public Vector2 getWorldSize() {
+    private Vector2 getWorldSize() {
         return new Vector2(Gdx.graphics.getWidth(), getBannerPositionY());
-    }
-
-    public List<Asteroid> getAsteroids() {
-        return asteroidGenerator.getAsteroids();
-    }
-
-    public long getScore(){
-        return asteroidGenerator.getScore();
     }
 }

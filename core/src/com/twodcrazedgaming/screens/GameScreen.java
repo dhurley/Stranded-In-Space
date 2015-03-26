@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         worldRenderer.render();
-        if(isSpaceshipOffScreen() || isSpaceshipCollidingWithAsteroid()){
+        if(worldRenderer.isGameOver()){
             dispose();
             game.setScreen(new GameOverScreen(game, isSoundOn, worldRenderer.getScore()));
         }
@@ -78,34 +78,4 @@ public class GameScreen implements Screen {
         worldRenderer.dispose();
     }
 
-    private boolean isSpaceshipOffScreen() {
-        Spaceship spaceship = worldRenderer.getSpaceship();
-        Vector2 worldSize = worldRenderer.getWorldSize();
-        Vector2 spaceshipPosition = spaceship.getPosition();
-        Vector2 spaceshipSize = spaceship.getSize();
-        if(spaceshipPosition.x + spaceshipSize.x < 0 || spaceshipPosition.x > worldSize.x){
-            return true;
-        }else if(spaceshipPosition.y + spaceshipSize.y < 0 || spaceshipPosition.y > worldSize.y){
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-    public boolean isSpaceshipCollidingWithAsteroid() {
-        Spaceship spaceship = worldRenderer.getSpaceship();
-        List<Asteroid> asteroids = worldRenderer.getAsteroids();
-        List<Polygon> spaceshipShapes = spaceship.getPolygonShapes();
-
-        for(Asteroid asteroid: asteroids){
-            Circle asteroidShape = asteroid.getCircleShape();
-            for(Polygon spaceshipShape: spaceshipShapes){
-                if(CollisionDetector.isColliding(spaceshipShape, asteroidShape)){
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 }
