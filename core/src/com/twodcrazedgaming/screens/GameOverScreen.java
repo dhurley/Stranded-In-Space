@@ -18,6 +18,7 @@ public class GameOverScreen implements Screen {
     private static final String TAG = GameOverScreen.class.getName();
     private final Game game;
 
+    private Sprite backgroundSprite;
     private SpriteBatch batch;
     private Sprite gameOverSprite;
     private BitmapFont font;
@@ -51,6 +52,8 @@ public class GameOverScreen implements Screen {
         int iconWidth = screenWidth / 5;
         int iconHeight = screenWidth / 5;
 
+        initializeBackground();
+
         homeSprite = new Sprite(Assets.instance.getHomeTexture());
         homeSprite.setSize(iconWidth, iconHeight);
         homeSprite.setPosition(screenWidth * 0.04f, iconHeight);
@@ -70,18 +73,13 @@ public class GameOverScreen implements Screen {
         Gdx.input.setInputProcessor(new GestureDetector(new GameOverGestureListener()));
     }
 
-    private void initializeGameOverSprite() {
-        gameOverSprite = new Sprite(Assets.instance.getGameOverTexture());
-        gameOverSprite.setPosition(0, 3 * screenHeight / 4);
-        gameOverSprite.setSize(screenWidth, screenHeight / 4);
-    }
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
+        backgroundSprite.draw(batch);
         gameOverSprite.draw(batch);
         font.draw(batch, "You are stranded in space forever.", (screenWidth / 5), 2 * screenHeight / 3);
         font.draw(batch, "Score: " + score, (3 * screenWidth / 7), 3 * screenHeight / 5);
@@ -116,6 +114,18 @@ public class GameOverScreen implements Screen {
     @Override
     public void dispose() {
         batch.dispose();
+    }
+
+    private void initializeGameOverSprite() {
+        gameOverSprite = new Sprite(Assets.instance.getGameOverTexture());
+        gameOverSprite.setPosition(0, screenHeight - screenWidth/5);
+        gameOverSprite.setSize(screenWidth, screenWidth/5);
+    }
+
+    private void initializeBackground() {
+        backgroundSprite = new Sprite(Assets.instance.getSpaceBackgroundTexture());
+        backgroundSprite.setPosition(0, 0);
+        backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     private class GameOverGestureListener implements GestureDetector.GestureListener {
