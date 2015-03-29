@@ -34,6 +34,7 @@ public class Spaceship implements Disposable {
     private float rotation;
     private Vector2 boost;
 
+    private int boostSpeed = 2;
     private int fuelLevel;
     private long lastTimeSpaceshipRefueled;
 
@@ -53,7 +54,7 @@ public class Spaceship implements Disposable {
 
         sprite.setSize(size.x, size.y);
         sprite.setOrigin(size.x / 2, size.y / 2);
-        setBoost(2);
+        setBoost(boostSpeed);
     }
 
     public void render(SpriteBatch batch) {
@@ -69,38 +70,15 @@ public class Spaceship implements Disposable {
         batch.end();
     }
 
-    public Vector2 getSize() {
-        return size;
-    }
-
-    public Vector2 getPosition() {
-        return position;
-    }
-
-    private void handleTurning() {
-        rotation = rotation + 1;
-        if (rotation == 361) {
-            rotation = 1;
-        }
-    }
-
-    private void handleDirection() {
-        position.y = position.y + boost.y;
-        position.x = position.x + boost.x;
-    }
-
-    private void handleRefueling() {
-        long currentTime = Calendar.getInstance().getTimeInMillis();
-        if (currentTime - lastTimeSpaceshipRefueled > 5000) {
-            lastTimeSpaceshipRefueled = currentTime;
-            refuel();
-        }
+    @Override
+    public void dispose() {
+        boostSound.dispose();
     }
 
     public void startBoost() {
         if (fuelLevel != 0) {
             sprite.setTexture(spaceshipWithBoostTexture);
-            setBoost(2);
+            setBoost(boostSpeed);
             if (isSoundOn) {
                 playBoostSound();
             }
@@ -108,55 +86,16 @@ public class Spaceship implements Disposable {
         }
     }
 
-    private void setBoost(float speed) {
-        Gdx.app.debug(TAG, "rotation: " + rotation);
-        if (rotation >= 0 && rotation <= 90) {
-            float tmp = (rotation * speed) / 90;
-            boost.y = speed - tmp;
-            boost.x = -tmp;
-        } else if (rotation >= 90 && rotation <= 180) {
-            float tmp = ((rotation - 90) * speed) / 90;
-            boost.y = -tmp;
-            boost.x = -(speed - tmp);
-        } else if (rotation >= 180 && rotation <= 270) {
-            float tmp = ((rotation - 180) * speed) / 90;
-            boost.y = -(speed - tmp);
-            boost.x = tmp;
-        } else if (rotation >= 270 && rotation <= 360) {
-            float tmp = ((rotation - 270) * speed) / 90;
-            boost.y = tmp;
-            boost.x = speed - tmp;
-        }
+    public void stopMovement(){
+        setBoost(0);
     }
 
-    private void playBoostSound() {
-        boostSound.play();
+    public Vector2 getSize() {
+        return size;
     }
 
-    private void useFuel() {
-        if (fuelLevel != 0) {
-            fuelLevel = fuelLevel - 10;
-        }
-
-        Gdx.app.debug(TAG, "fuel used. fuel level is now: " + fuelLevel);
-    }
-
-    public void startRefueling() {
-        sprite.setTexture(spaceshipTexture);
-        lastTimeSpaceshipRefueled = Calendar.getInstance().getTimeInMillis();
-    }
-
-    private void refuel() {
-        if (fuelLevel != 100) {
-            fuelLevel = fuelLevel + 10;
-        }
-
-        Gdx.app.debug(TAG, "refueling. fuel level is now: " + fuelLevel);
-    }
-
-    @Override
-    public void dispose() {
-        boostSound.dispose();
+    public Vector2 getPosition() {
+        return position;
     }
 
     public int getFuelLevel() {
@@ -250,5 +189,71 @@ public class Spaceship implements Disposable {
         shapes.add(rightArmShape);
 
         return shapes;
+    }
+
+    private void handleTurning() {
+        rotation = rotation + 1;
+        if (rotation == 361) {
+            rotation = 1;
+        }
+    }
+
+    private void handleDirection() {
+        position.y = position.y + boost.y;
+        position.x = position.x + boost.x;
+    }
+
+    private void handleRefueling() {
+        long currentTime = Calendar.getInstance().getTimeInMillis();
+        if (currentTime - lastTimeSpaceshipRefueled > 5000) {
+            lastTimeSpaceshipRefueled = currentTime;
+            refuel();
+        }
+    }
+
+    private void setBoost(float speed) {
+        Gdx.app.debug(TAG, "rotation: " + rotation);
+        if (rotation >= 0 && rotation <= 90) {
+            float tmp = (rotation * speed) / 90;
+            boost.y = speed - tmp;
+            boost.x = -tmp;
+        } else if (rotation >= 90 && rotation <= 180) {
+            float tmp = ((rotation - 90) * speed) / 90;
+            boost.y = -tmp;
+            boost.x = -(speed - tmp);
+        } else if (rotation >= 180 && rotation <= 270) {
+            float tmp = ((rotation - 180) * speed) / 90;
+            boost.y = -(speed - tmp);
+            boost.x = tmp;
+        } else if (rotation >= 270 && rotation <= 360) {
+            float tmp = ((rotation - 270) * speed) / 90;
+            boost.y = tmp;
+            boost.x = speed - tmp;
+        }
+    }
+
+    private void playBoostSound() {
+        boostSound.play();
+    }
+
+    private void useFuel() {
+        if (fuelLevel != 0) {
+            fuelLevel = fuelLevel - 10;
+        }
+
+        Gdx.app.debug(TAG, "fuel used. fuel level is now: " + fuelLevel);
+    }
+
+    public void startRefueling() {
+        sprite.setTexture(spaceshipTexture);
+        lastTimeSpaceshipRefueled = Calendar.getInstance().getTimeInMillis();
+    }
+
+    private void refuel() {
+        if (fuelLevel != 100) {
+            fuelLevel = fuelLevel + 10;
+        }
+
+        Gdx.app.debug(TAG, "refueling. fuel level is now: " + fuelLevel);
     }
 }

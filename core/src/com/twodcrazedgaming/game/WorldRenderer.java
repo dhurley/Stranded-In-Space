@@ -118,6 +118,8 @@ public class WorldRenderer implements Disposable {
             Circle asteroidShape = asteroid.getCircleShape();
             for(Polygon spaceshipShape: spaceshipShapes){
                 if(CollisionDetector.isColliding(spaceshipShape, asteroidShape)){
+                    asteroid.stopMovement();
+                    spaceship.stopMovement();
                     return true;
                 }
             }

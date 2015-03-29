@@ -61,6 +61,23 @@ public class Asteroid {
         return position;
     }
 
+    public Circle getCircleShape() {
+        Circle shape = new Circle(new Vector2(position.x + size.x / 2, position.y + size.y / 2), size.x / 2);
+        return shape;
+    }
+
+    public Vector2 getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Vector2 velocity) {
+        this.velocity = velocity;
+    }
+
+    public void stopMovement(){
+        this.velocity = new Vector2(0, 0);
+    }
+
     private void addRotation() {
         rotation = rotation + initialRotation;
         if(rotation > 360){
@@ -73,18 +90,5 @@ public class Asteroid {
         position.y = position.y + velocity.y;
         position.x = position.x + velocity.x;
         sprite.setPosition(position.x, position.y);
-    }
-
-    public Circle getCircleShape() {
-        Circle shape = new Circle(new Vector2(position.x + size.x / 2, position.y + size.y / 2), size.x / 2);
-        return shape;
-    }
-
-    public Vector2 getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity(Vector2 velocity) {
-        this.velocity = velocity;
     }
 }
