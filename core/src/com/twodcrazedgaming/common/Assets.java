@@ -56,6 +56,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
         assetManager.load(Constants.SPACE_OGG, Music.class);
         assetManager.load(Constants.BOOST_OGG, Sound.class);
+        assetManager.load(Constants.EXPLOSION_OGG, Sound.class);
 
         loadDroidSansFont();
 
@@ -156,6 +157,10 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public Music getSpaceSound() {
         return assetManager.get(Constants.SPACE_OGG, Music.class);
+    }
+
+    public Sound getExplosionSound() {
+        return assetManager.get(Constants.EXPLOSION_OGG, Sound.class);
     }
 
     public BitmapFont getDroidSansFont(){

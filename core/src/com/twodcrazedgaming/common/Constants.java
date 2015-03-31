@@ -32,6 +32,7 @@ public class Constants {
     //sounds
     public static final String BOOST_OGG = "sounds/boost.ogg";
     public static final String SPACE_OGG = "sounds/space.ogg";
+    public static final String EXPLOSION_OGG = "sounds/explosion.ogg";
 
     //fonts
     public static final String DROID_SANS_TTF = "fonts/DroidSans.ttf";

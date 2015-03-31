@@ -1,6 +1,7 @@
 package com.twodcrazedgaming.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -38,6 +39,7 @@ public class WorldRenderer implements Disposable {
     private Sprite blackBannerSprite;
 
     private boolean isSoundOn;
+    private Sound explosionSound = Assets.instance.getExplosionSound();
     private long timeSinceLastAsteroidCreated;
 
     public WorldRenderer(boolean isSoundOn){
@@ -73,6 +75,8 @@ public class WorldRenderer implements Disposable {
         if(isSpaceshipCollidingWithAsteroid()){
             if(explosion == null){
                 explosion = new Explosion(spaceship.getPosition(), spaceship.getSize());
+                long id = explosionSound.play();
+                explosionSound.setVolume(id, 0.1f);
             }
             explosion.render(batch);
         }else {
@@ -95,6 +99,7 @@ public class WorldRenderer implements Disposable {
         spaceship.dispose();
         batch.dispose();
         worldController.dispose();
+        explosionSound.dispose();
     }
 
     public boolean isSpaceshipOffScreen() {

@@ -27,7 +27,7 @@ public class Spaceship implements Disposable {
     private Texture spaceshipTexture = Assets.instance.getSpaceshipTexture();
     private Texture spaceshipWithBoostTexture = Assets.instance.getSpaceShipWithBoostTexture();
     private Sprite sprite = new Sprite(spaceshipTexture);
-    private Sound boostSound;
+    private Sound boostSound = Assets.instance.getBoostSound();
 
     private Vector2 size;
     private Vector2 position;
@@ -48,8 +48,6 @@ public class Spaceship implements Disposable {
         position = new Vector2((Gdx.graphics.getWidth() / 2) - (size.y / 2), Gdx.graphics.getHeight() / 15);
         boost = new Vector2(0, 0);
         rotation = 0;
-
-        boostSound = Assets.instance.getBoostSound();
         fuelLevel = 100;
 
         sprite.setSize(size.x, size.y);
@@ -233,7 +231,8 @@ public class Spaceship implements Disposable {
     }
 
     private void playBoostSound() {
-        boostSound.play();
+        long id = boostSound.play();
+        boostSound.setVolume(id, 0.15f);
     }
 
     private void useFuel() {

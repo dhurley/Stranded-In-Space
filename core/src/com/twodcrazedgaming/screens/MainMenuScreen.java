@@ -79,8 +79,10 @@ public class MainMenuScreen implements Screen {
         speakerSprite.setSize(iconWidth, iconHeight);
         speakerSprite.setPosition(screenWidth*0.04f*4 + iconWidth*3, iconHeight);
 
-        spaceMusic = Assets.instance.getSpaceSound();
-        spaceMusic.setLooping(true);
+        if(spaceMusic == null) {
+            spaceMusic = Assets.instance.getSpaceSound();
+            spaceMusic.setLooping(true);
+        }
         if(isSoundOn) {
             spaceMusic.play();
         }else{
