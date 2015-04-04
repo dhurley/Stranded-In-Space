@@ -53,7 +53,6 @@ public class Assets implements Disposable, AssetErrorListener {
 
         assetManager.load(Constants.TITLE_PNG, Texture.class);
         assetManager.load(Constants.GAME_OVER_PNG, Texture.class);
-        assetManager.load(Constants.BLACK_BANNER_PNG, Texture.class);
         assetManager.load(Constants.SPLASH_SCREEN_PNG, Texture.class);
 
         assetManager.load(Constants.SPACE_OGG, Music.class);
@@ -148,9 +147,6 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public Texture getGameOverTexture() {
         return assetManager.get(Constants.GAME_OVER_PNG);
-    }
-    public Texture getBlackBannerTexture() {
-        return assetManager.get(Constants.BLACK_BANNER_PNG);
     }
 
     public Texture getSplashScreenTexture() {

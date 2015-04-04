@@ -27,7 +27,6 @@ public class Constants {
     //text
     public static final String TITLE_PNG = "images/title.png";
     public static final String GAME_OVER_PNG = "images/game_over.png";
-    public static final String BLACK_BANNER_PNG = "images/black_banner.png";
     public static final String SPLASH_SCREEN_PNG = "images/splash_screen.png";
 
     //sounds
