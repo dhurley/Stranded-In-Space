@@ -8,6 +8,7 @@ public class Constants {
     public static final float VIEWPORT_HEIGHT = 5.0f;
 
     public static final String TITLE = "Stranded In Space";
+    public static final String GAME_URI = "www.google.ie";
 
     //icons
     public static final String LEADERBOARD_PNG = "images/icons/leaderboard.png";

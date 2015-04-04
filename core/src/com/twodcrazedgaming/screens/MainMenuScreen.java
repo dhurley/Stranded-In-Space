@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
-import com.twodcrazedgaming.StrandedInSpace;
 import com.twodcrazedgaming.common.Assets;
+import com.twodcrazedgaming.common.Constants;
 import com.twodcrazedgaming.tween.SpriteAccessor;
 
 import aurelienribon.tweenengine.BaseTween;
@@ -188,7 +188,7 @@ public class MainMenuScreen implements Screen {
                 fadeOutAndStartGame();
                 return true;
             }else if(isButtonPressed(rateSprite, x, y)){
-
+                Gdx.net.openURI(Constants.GAME_URI);
                 return true;
             }else if(isButtonPressed(leaderboardSprite, x, y)){
 

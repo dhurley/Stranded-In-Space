@@ -74,8 +74,10 @@ public class WorldRenderer implements Disposable {
         if(isSpaceshipCollidingWithAsteroid()){
             if(explosion == null){
                 explosion = new Explosion(spaceship.getPosition(), spaceship.getSize());
-                long id = explosionSound.play();
-                explosionSound.setVolume(id, 0.1f);
+                if(isSoundOn) {
+                    long id = explosionSound.play();
+                    explosionSound.setVolume(id, 0.1f);
+                }
             }
             explosion.render(batch);
         }else {
