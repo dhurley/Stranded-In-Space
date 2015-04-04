@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.twodcrazedgaming.common.Assets;
 import com.twodcrazedgaming.screens.GameOverScreen;
 import com.twodcrazedgaming.screens.MainMenuScreen;
+import com.twodcrazedgaming.screens.SplashScreen;
 
 /**
  * Created by DJHURLEY on 25/01/2015.
@@ -17,6 +18,6 @@ public class StrandedInSpace extends Game {
     public void create() {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         Assets.instance.init(new AssetManager());
-        setScreen(new MainMenuScreen(this, true));
+        setScreen(new SplashScreen(this, true));
     }
 }

@@ -32,11 +32,10 @@ public class WorldRenderer implements Disposable {
     private Spaceship spaceship;
     private Explosion explosion;
     private AsteroidGenerator asteroidGenerator;
-    private int maxNoOfAsteroids = 10;
+    private int maxNoOfAsteroids = 15;
 
     private Sprite backgroundSprite;
     private BitmapFont font;
-    private Sprite blackBannerSprite;
 
     private boolean isSoundOn;
     private Sound explosionSound = Assets.instance.getExplosionSound();
@@ -54,7 +53,6 @@ public class WorldRenderer implements Disposable {
         camera.update();
 
         initializeBackground();
-        initializeBanner();
         spaceship = new Spaceship(isSoundOn);
 
         asteroidGenerator = new AsteroidGenerator(getWorldSize());
@@ -65,6 +63,7 @@ public class WorldRenderer implements Disposable {
         Gdx.input.setInputProcessor(worldController);
 
         font = Assets.instance.getDroidSansFont();
+        font.setColor(1, 1, 1, 1);
     }
 
     public void render(){
@@ -84,7 +83,6 @@ public class WorldRenderer implements Disposable {
         }
 
         asteroidGenerator.render(batch);
-        renderBanner();
         renderScore();
         renderFuelLevel();
     }
@@ -99,7 +97,7 @@ public class WorldRenderer implements Disposable {
         spaceship.dispose();
         batch.dispose();
         worldController.dispose();
-        explosionSound.dispose();
+        //explosionSound.dispose();
     }
 
     public boolean isSpaceshipOffScreen() {
@@ -163,21 +161,9 @@ public class WorldRenderer implements Disposable {
         backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
-    private void initializeBanner() {
-        blackBannerSprite = new Sprite(Assets.instance.getBlackBannerTexture());
-        blackBannerSprite.setPosition(0, getBannerPositionY());
-        blackBannerSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - getBannerPositionY());
-    }
-
     private void renderBackground() {
         batch.begin();
         backgroundSprite.draw(batch);
-        batch.end();
-    }
-
-    private void renderBanner() {
-        batch.begin();
-        blackBannerSprite.draw(batch);
         batch.end();
     }
 
@@ -193,15 +179,11 @@ public class WorldRenderer implements Disposable {
         batch.end();
     }
 
-    private int getBannerPositionY() {
-        return Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/15;
-    }
-
     private int getFontPositionY() {
         return Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/30;
     }
 
     private Vector2 getWorldSize() {
-        return new Vector2(Gdx.graphics.getWidth(), getBannerPositionY());
+        return new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 }

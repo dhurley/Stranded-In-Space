@@ -10,6 +10,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
@@ -53,6 +54,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load(Constants.TITLE_PNG, Texture.class);
         assetManager.load(Constants.GAME_OVER_PNG, Texture.class);
         assetManager.load(Constants.BLACK_BANNER_PNG, Texture.class);
+        assetManager.load(Constants.SPLASH_SCREEN_PNG, Texture.class);
 
         assetManager.load(Constants.SPACE_OGG, Music.class);
         assetManager.load(Constants.BOOST_OGG, Sound.class);
@@ -149,6 +151,10 @@ public class Assets implements Disposable, AssetErrorListener {
     }
     public Texture getBlackBannerTexture() {
         return assetManager.get(Constants.BLACK_BANNER_PNG);
+    }
+
+    public Texture getSplashScreenTexture() {
+        return assetManager.get(Constants.SPLASH_SCREEN_PNG);
     }
 
     public Sound getBoostSound(){

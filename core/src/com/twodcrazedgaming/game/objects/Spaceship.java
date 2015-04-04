@@ -24,6 +24,8 @@ import java.util.List;
 public class Spaceship implements Disposable {
     private static final String TAG = Spaceship.class.getName();
 
+    private static final int REFUELING_TIME = 10000;
+
     private Texture spaceshipTexture = Assets.instance.getSpaceshipTexture();
     private Texture spaceshipWithBoostTexture = Assets.instance.getSpaceShipWithBoostTexture();
     private Sprite sprite = new Sprite(spaceshipTexture);
@@ -36,7 +38,7 @@ public class Spaceship implements Disposable {
 
     private int boostSpeed = 2;
     private int fuelLevel;
-    private long lastTimeSpaceshipRefueled;
+    private long lastTimeSpaceshipRefueled = Calendar.getInstance().getTimeInMillis();;
 
     private final boolean isSoundOn;
 
@@ -70,7 +72,7 @@ public class Spaceship implements Disposable {
 
     @Override
     public void dispose() {
-        boostSound.dispose();
+        //boostSound.dispose();
     }
 
     public void startBoost() {
@@ -203,7 +205,7 @@ public class Spaceship implements Disposable {
 
     private void handleRefueling() {
         long currentTime = Calendar.getInstance().getTimeInMillis();
-        if (currentTime - lastTimeSpaceshipRefueled > 5000) {
+        if (currentTime - lastTimeSpaceshipRefueled > REFUELING_TIME) {
             lastTimeSpaceshipRefueled = currentTime;
             refuel();
         }
@@ -243,9 +245,8 @@ public class Spaceship implements Disposable {
         Gdx.app.debug(TAG, "fuel used. fuel level is now: " + fuelLevel);
     }
 
-    public void startRefueling() {
+    public void stopBoost() {
         sprite.setTexture(spaceshipTexture);
-        lastTimeSpaceshipRefueled = Calendar.getInstance().getTimeInMillis();
     }
 
     private void refuel() {

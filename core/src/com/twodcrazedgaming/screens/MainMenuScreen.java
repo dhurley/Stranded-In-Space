@@ -11,6 +11,12 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.twodcrazedgaming.StrandedInSpace;
 import com.twodcrazedgaming.common.Assets;
+import com.twodcrazedgaming.tween.SpriteAccessor;
+
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenManager;
 
 /**
  * Created by DJHURLEY on 22/02/2015.
@@ -35,6 +41,8 @@ public class MainMenuScreen implements Screen {
     private Music spaceMusic;
     private boolean isSoundOn;
 
+    private TweenManager tweenManager;
+
     public MainMenuScreen(Game game, boolean isSoundOn) {
         this.game = game;
         this.isSoundOn = isSoundOn;
@@ -48,6 +56,9 @@ public class MainMenuScreen implements Screen {
 
         int iconWidth = screenWidth/5;
         int iconHeight = screenWidth/5;
+
+        tweenManager = new TweenManager();
+        Tween.registerAccessor(Sprite.class, new SpriteAccessor());
 
         initializeBackground();
 
@@ -97,6 +108,8 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        tweenManager.update(delta);
+
         spriteBatch.begin();
         backgroundSprite.draw(spriteBatch);
         titleSprite.draw(spriteBatch);
@@ -144,12 +157,35 @@ public class MainMenuScreen implements Screen {
         backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
+    private void fadeOutAndStartGame() {
+        Tween.set(titleSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(spaceshipSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(playSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(rateSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(leaderboardSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(speakerSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+
+        Tween.to(titleSprite, SpriteAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(spaceshipSprite, SpriteAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(playSprite, SpriteAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(rateSprite, SpriteAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(leaderboardSprite, SpriteAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(speakerSprite, SpriteAccessor.ALPHA, 2).target(0).setCallback(new TweenCallback() {
+            @Override
+            public void onEvent(int type, BaseTween<?> source) {
+                game.setScreen(new GameScreen(game, isSoundOn));
+            }
+        }).start(tweenManager);
+
+        Gdx.input.setInputProcessor(null);
+    }
+
     private class MainMenuGestureListener implements GestureDetector.GestureListener {
 
         @Override
         public boolean touchDown(float x, float y, int pointer, int button) {
             if(isButtonPressed(playSprite, x, y)){
-                game.setScreen(new GameScreen(game, isSoundOn));
+                fadeOutAndStartGame();
                 return true;
             }else if(isButtonPressed(rateSprite, x, y)){
 

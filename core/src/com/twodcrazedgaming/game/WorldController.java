@@ -39,7 +39,7 @@ public class WorldController  implements InputProcessor, Disposable {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        spaceship.startRefueling();
+        spaceship.stopBoost();
         return true;
     }
 

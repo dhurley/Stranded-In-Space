@@ -10,6 +10,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.twodcrazedgaming.common.Assets;
+import com.twodcrazedgaming.tween.BitmapFontAccessor;
+import com.twodcrazedgaming.tween.SpriteAccessor;
+
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenManager;
 
 /**
  * Created by DJHURLEY on 21/02/2015.
@@ -33,6 +40,8 @@ public class GameOverScreen implements Screen {
     private boolean isSoundOn;
     private long score = 0;
 
+    private TweenManager tweenManager;
+
     public GameOverScreen(Game game, boolean isSoundOn, long score) {
         this.game = game;
         this.isSoundOn = isSoundOn;
@@ -42,12 +51,16 @@ public class GameOverScreen implements Screen {
     @Override
     public void show() {
         batch = new SpriteBatch();
+        tweenManager = new TweenManager();
+        Tween.registerAccessor(Sprite.class, new SpriteAccessor());
+        Tween.registerAccessor(BitmapFont.class, new BitmapFontAccessor());
 
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
         initializeGameOverSprite();
         font = Assets.instance.getDroidSansFont();
+        font.setColor(1, 1, 1, 1);
 
         int iconWidth = screenWidth / 5;
         int iconHeight = screenWidth / 5;
@@ -77,6 +90,8 @@ public class GameOverScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        tweenManager.update(delta);
 
         batch.begin();
         backgroundSprite.draw(batch);
@@ -128,15 +143,61 @@ public class GameOverScreen implements Screen {
         backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
+    private void fadeOutAndReturnToMainMenu() {
+        Tween.set(font, BitmapFontAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(gameOverSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(homeSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(replaySprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(rateSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(leaderboardSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+
+        Tween.to(font, BitmapFontAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(gameOverSprite, SpriteAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(homeSprite, SpriteAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(replaySprite, SpriteAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(rateSprite, SpriteAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(leaderboardSprite, SpriteAccessor.ALPHA, 2).target(0).setCallback(new TweenCallback() {
+            @Override
+            public void onEvent(int type, BaseTween<?> source) {
+                game.setScreen(new MainMenuScreen(game, isSoundOn));
+            }
+        }).start(tweenManager);
+
+        Gdx.input.setInputProcessor(null);
+    }
+
+    private void fadeOutAndStartGame() {
+        Tween.set(font, BitmapFontAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(gameOverSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(homeSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(replaySprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(rateSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+        Tween.set(leaderboardSprite, SpriteAccessor.ALPHA).target(1).start(tweenManager);
+
+        Tween.to(font, BitmapFontAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(gameOverSprite, SpriteAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(homeSprite, SpriteAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(replaySprite, SpriteAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(rateSprite, SpriteAccessor.ALPHA, 2).target(0).start(tweenManager);
+        Tween.to(leaderboardSprite, SpriteAccessor.ALPHA, 2).target(0).setCallback(new TweenCallback() {
+            @Override
+            public void onEvent(int type, BaseTween<?> source) {
+                game.setScreen(new GameScreen(game, isSoundOn));
+            }
+        }).start(tweenManager);
+
+        Gdx.input.setInputProcessor(null);
+    }
+
     private class GameOverGestureListener implements GestureDetector.GestureListener {
 
         @Override
         public boolean touchDown(float x, float y, int pointer, int button) {
             if (isButtonPressed(homeSprite, x, y)) {
-                game.setScreen(new MainMenuScreen(game, isSoundOn));
+                fadeOutAndReturnToMainMenu();
                 return true;
             } else if (isButtonPressed(replaySprite, x, y)) {
-                game.setScreen(new GameScreen(game, isSoundOn));
+                fadeOutAndStartGame();
                 return true;
             } else if (isButtonPressed(rateSprite, x, y)) {
 
