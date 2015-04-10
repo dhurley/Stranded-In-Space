@@ -31,6 +31,7 @@ public class WorldRenderer implements Disposable {
     private WorldController worldController;
     private Spaceship spaceship;
     private Explosion explosion;
+    private ScoreMonitor scoreMonitor;
     private AsteroidGenerator asteroidGenerator;
     private int maxNoOfAsteroids = 15;
 
@@ -58,6 +59,8 @@ public class WorldRenderer implements Disposable {
         asteroidGenerator = new AsteroidGenerator(getWorldSize());
         asteroidGenerator.createAsteroid();
         timeSinceLastAsteroidCreated = Calendar.getInstance().getTimeInMillis();
+
+        scoreMonitor = new ScoreMonitor(asteroidGenerator, spaceship);
 
         worldController = new WorldController(spaceship);
         Gdx.input.setInputProcessor(worldController);
@@ -87,7 +90,6 @@ public class WorldRenderer implements Disposable {
 
         font.setColor(1, 1, 1, 1);
         renderScore();
-        renderFuelLevel();
     }
 
     public void resize(int width, int height){
@@ -147,7 +149,7 @@ public class WorldRenderer implements Disposable {
     }
 
     public int getScore(){
-        return asteroidGenerator.getScore();
+        return scoreMonitor.getScore();
     }
 
     private void generateNewAsteroid() {
@@ -172,13 +174,7 @@ public class WorldRenderer implements Disposable {
 
     private void renderScore() {
         batch.begin();
-        font.draw(batch, "Score: " + asteroidGenerator.getScore(), Gdx.graphics.getWidth()/12, getFontPositionY());
-        batch.end();
-    }
-
-    private void renderFuelLevel() {
-        batch.begin();
-        font.draw(batch, "Fuel: " + spaceship.getFuelLevel() + "%", ((3 * Gdx.graphics.getWidth())/4), getFontPositionY());
+        font.draw(batch, "Score: " + scoreMonitor.getScore(), Gdx.graphics.getWidth()/12, getFontPositionY());
         batch.end();
     }
 

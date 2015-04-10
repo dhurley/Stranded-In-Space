@@ -21,8 +21,6 @@ import java.util.List;
 public class Spaceship implements Disposable {
     private static final String TAG = Spaceship.class.getName();
 
-    private static final int REFUELING_TIME = 10000;
-
     private Texture spaceshipTexture = Assets.instance.getSpaceshipTexture();
     private Texture spaceshipWithBoostTexture = Assets.instance.getSpaceShipWithBoostTexture();
     private Sprite sprite = new Sprite(spaceshipTexture);
@@ -34,9 +32,6 @@ public class Spaceship implements Disposable {
     private Vector2 boost;
 
     private int boostSpeed = 2;
-    private int fuelLevel;
-    private long lastTimeSpaceshipRefueled = Calendar.getInstance().getTimeInMillis();;
-
     private final boolean isSoundOn;
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -47,7 +42,6 @@ public class Spaceship implements Disposable {
         position = new Vector2((Gdx.graphics.getWidth() / 2) - (size.y / 2), Gdx.graphics.getHeight() / 15);
         boost = new Vector2(0, 0);
         rotation = 0;
-        fuelLevel = 100;
 
         sprite.setSize(size.x, size.y);
         sprite.setOrigin(size.x / 2, size.y / 2);
@@ -57,7 +51,6 @@ public class Spaceship implements Disposable {
     public void render(SpriteBatch batch) {
         handleTurning();
         handleDirection();
-        handleRefueling();
 
         sprite.setPosition(position.x, position.y);
         sprite.setRotation(rotation);
@@ -73,14 +66,15 @@ public class Spaceship implements Disposable {
     }
 
     public void startBoost() {
-        if (fuelLevel != 0) {
             sprite.setTexture(spaceshipWithBoostTexture);
             setBoost(boostSpeed);
             if (isSoundOn) {
                 playBoostSound();
             }
-            useFuel();
-        }
+    }
+
+    public void stopBoost() {
+        sprite.setTexture(spaceshipTexture);
     }
 
     public void stopMovement(){
@@ -93,10 +87,6 @@ public class Spaceship implements Disposable {
 
     public Vector2 getPosition() {
         return position;
-    }
-
-    public int getFuelLevel() {
-        return fuelLevel;
     }
 
     public List<Polygon> getPolygonShapes() {
@@ -200,14 +190,6 @@ public class Spaceship implements Disposable {
         position.x = position.x + boost.x;
     }
 
-    private void handleRefueling() {
-        long currentTime = Calendar.getInstance().getTimeInMillis();
-        if (currentTime - lastTimeSpaceshipRefueled > REFUELING_TIME) {
-            lastTimeSpaceshipRefueled = currentTime;
-            refuel();
-        }
-    }
-
     private void setBoost(float speed) {
         Gdx.app.debug(TAG, "rotation: " + rotation);
         if (rotation >= 0 && rotation <= 90) {
@@ -232,25 +214,5 @@ public class Spaceship implements Disposable {
     private void playBoostSound() {
         long id = boostSound.play();
         boostSound.setVolume(id, 0.15f);
-    }
-
-    private void useFuel() {
-        if (fuelLevel != 0) {
-            fuelLevel = fuelLevel - 10;
-        }
-
-        Gdx.app.debug(TAG, "fuel used. fuel level is now: " + fuelLevel);
-    }
-
-    public void stopBoost() {
-        sprite.setTexture(spaceshipTexture);
-    }
-
-    private void refuel() {
-        if (fuelLevel != 100) {
-            fuelLevel = fuelLevel + 10;
-        }
-
-        Gdx.app.debug(TAG, "refueling. fuel level is now: " + fuelLevel);
     }
 }

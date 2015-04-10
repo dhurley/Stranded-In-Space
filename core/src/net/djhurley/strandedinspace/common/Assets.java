@@ -35,11 +35,14 @@ public class Assets implements Disposable, AssetErrorListener {
 
         assetManager.load(Constants.LEADERBOARD_PNG, Texture.class);
         assetManager.load(Constants.PLAY_PNG, Texture.class);
+        assetManager.load(Constants.PLAY_PRESS_PNG, Texture.class);
         assetManager.load(Constants.RATE_PNG, Texture.class);
         assetManager.load(Constants.SPEAKER_ON_PNG, Texture.class);
         assetManager.load(Constants.SPEAKER_OFF_PNG, Texture.class);
         assetManager.load(Constants.HOME_PNG, Texture.class);
+        assetManager.load(Constants.HOME_PRESSED_PNG, Texture.class);
         assetManager.load(Constants.REPLAY_PNG, Texture.class);
+        assetManager.load(Constants.REPLAY_PRESSED_PNG, Texture.class);
 
         assetManager.load(Constants.SPACESHIP_PNG, Texture.class);
         assetManager.load(Constants.SPACESHIP_WITH_BOOST_PNG, Texture.class);
@@ -97,6 +100,10 @@ public class Assets implements Disposable, AssetErrorListener {
         return assetManager.get(Constants.PLAY_PNG);
     }
 
+    public Texture getPlayPressedTexture(){
+        return assetManager.get(Constants.PLAY_PRESS_PNG);
+    }
+
     public Texture getRateTexture(){
         return assetManager.get(Constants.RATE_PNG);
     }
@@ -113,8 +120,16 @@ public class Assets implements Disposable, AssetErrorListener {
         return assetManager.get(Constants.HOME_PNG);
     }
 
+    public Texture getHomePressedTexture(){
+        return assetManager.get(Constants.HOME_PRESSED_PNG);
+    }
+
     public Texture getReplayTexture(){
         return assetManager.get(Constants.REPLAY_PNG);
+    }
+
+    public Texture getReplayPressedTexture(){
+        return assetManager.get(Constants.REPLAY_PRESSED_PNG);
     }
 
     public Texture getSpaceshipTexture(){

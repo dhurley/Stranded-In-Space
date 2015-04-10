@@ -40,7 +40,7 @@ public class SplashScreen implements Screen {
         sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         Tween.set(sprite, SpriteAccessor.ALPHA).target(0).start(tweenManager);
-        Tween.to(sprite, SpriteAccessor.ALPHA, 3).target(1).repeatYoyo(1, 2).setCallback(new TweenCallback() {
+        Tween.to(sprite, SpriteAccessor.ALPHA, 3).target(1).repeatYoyo(1, 1).setCallback(new TweenCallback() {
             @Override
             public void onEvent(int type, BaseTween<?> source) {
                 game.setScreen(new MainMenuScreen(game, isSoundOn));

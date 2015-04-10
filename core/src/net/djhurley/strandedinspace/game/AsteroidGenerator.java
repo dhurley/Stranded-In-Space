@@ -18,12 +18,12 @@ public class AsteroidGenerator {
 
     private final Vector2 worldSize;
     private List<Asteroid> asteroids;
-    private int score;
+    private int destroyedAsteroids;
 
     public AsteroidGenerator(final Vector2 worldSize){
         asteroids = new ArrayList<Asteroid>();
         this.worldSize = worldSize;
-        score = 0;
+        destroyedAsteroids = 0;
     }
 
     public void createAsteroid(){
@@ -31,7 +31,8 @@ public class AsteroidGenerator {
 
         while(true) {
             float randomSizeRatio = MathUtils.random(12, 15);
-            Vector2 size = new Vector2(Gdx.graphics.getWidth() / randomSizeRatio, Gdx.graphics.getWidth() / randomSizeRatio);
+            float radius = Gdx.graphics.getWidth() / randomSizeRatio;
+            Vector2 size = new Vector2(radius, radius);
 
             float randomPositionX = MathUtils.random(size.x, Gdx.graphics.getWidth() - size.x);
             Vector2 position = new Vector2(randomPositionX, Gdx.graphics.getHeight());
@@ -60,7 +61,9 @@ public class AsteroidGenerator {
             Asteroid asteroid = iterator.next();
 
             if(isCollidingWithOtherAsteroids(asteroid)){
-                applyCollisionVelocity(asteroid);
+                applyVelocityFromAsteroids(asteroid);
+            }else if(isCollidingWithSideWalls(asteroid)){
+                applyVelocityFromSideWalls(asteroid);
             }
 
             asteroid.render(batch);
@@ -68,7 +71,7 @@ public class AsteroidGenerator {
             if(isAsteroidOffScreen(asteroid)){
                 Gdx.app.debug(TAG, "Asteroid destroyed.");
                 iterator.remove();
-                score++;
+                destroyedAsteroids++;
             }
         }
     }
@@ -90,7 +93,16 @@ public class AsteroidGenerator {
         return false;
     }
 
-    private boolean applyCollisionVelocity(Asteroid asteroid) {
+    private boolean isCollidingWithSideWalls(Asteroid asteroid) {
+        Vector2 asteroidPosition = asteroid.getPosition();
+        Vector2 asteroidSize = asteroid.getSize();
+        if(asteroidPosition.x < 0 || asteroidPosition.x + asteroidSize.x > worldSize.x){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean applyVelocityFromAsteroids(Asteroid asteroid) {
         Iterator<Asteroid> iterator = asteroids.iterator();
         while (iterator.hasNext()) {
             Asteroid existingAsteroid = iterator.next();
@@ -105,10 +117,14 @@ public class AsteroidGenerator {
                 float asteroidSize = asteroid.getSize().x;
                 float existingAsteroidSize = existingAsteroid.getSize().x;
 
-                float newVelocityX1 = (asteroidVelocity.x * (asteroidSize - existingAsteroidSize) + (2 * existingAsteroidSize * existingAsteroidVelocity.x)) / (asteroidSize + existingAsteroidSize);
-                float newVelocityY1 = (asteroidVelocity.y * (asteroidSize - existingAsteroidSize) + (2 * existingAsteroidSize * existingAsteroidVelocity.y)) / (asteroidSize + existingAsteroidSize);
-                float newVelocityX2 = (existingAsteroidVelocity.x * (existingAsteroidSize - asteroidSize) + (2 * asteroidSize * asteroidVelocity.x)) / (asteroidSize + existingAsteroidSize);
-                float newVelocityY2 = (existingAsteroidVelocity.y * (existingAsteroidSize - asteroidSize) + (2 * asteroidSize * asteroidVelocity.y)) / (asteroidSize + existingAsteroidSize);
+                float newVelocityX1 = (asteroidVelocity.x * (asteroidSize - existingAsteroidSize)
+                                       + (2 * existingAsteroidSize * existingAsteroidVelocity.x)) / (asteroidSize + existingAsteroidSize);
+                float newVelocityY1 = (asteroidVelocity.y * (asteroidSize - existingAsteroidSize)
+                                       + (2 * existingAsteroidSize * existingAsteroidVelocity.y)) / (asteroidSize + existingAsteroidSize);
+                float newVelocityX2 = (existingAsteroidVelocity.x * (existingAsteroidSize - asteroidSize)
+                                       + (2 * asteroidSize * asteroidVelocity.x)) / (asteroidSize + existingAsteroidSize);
+                float newVelocityY2 = (existingAsteroidVelocity.y * (existingAsteroidSize - asteroidSize)
+                                       + (2 * asteroidSize * asteroidVelocity.y)) / (asteroidSize + existingAsteroidSize);
 
                 asteroid.setVelocity(new Vector2(newVelocityX1, newVelocityY1));
                 existingAsteroid.setVelocity(new Vector2(newVelocityX2, newVelocityY2));
@@ -118,20 +134,24 @@ public class AsteroidGenerator {
         return false;
     }
 
+    private void applyVelocityFromSideWalls(Asteroid asteroid) {
+        Vector2 velocity = asteroid.getVelocity();
+        Vector2 newVelocity = new Vector2(-1 * velocity.x, velocity.y);
+        asteroid.setVelocity(newVelocity);
+    }
+
     private boolean isAsteroidOffScreen(final Asteroid asteroid) {
         Vector2 asteroidPosition = asteroid.getPosition();
         Vector2 asteroidSize = asteroid.getSize();
-        if(asteroidPosition.x + asteroidSize.x < 0 || asteroidPosition.x > worldSize.x){
-            return true;
-        }else if(asteroidPosition.y + asteroidSize.y < 0){
+        if(asteroidPosition.y + asteroidSize.y < 0){
             return true;
         }else {
             return false;
         }
     }
 
-    public int getScore() {
-        return score;
+    public int getNumberOfDestroyedAsteroids() {
+        return destroyedAsteroids;
     }
 
     public List<Asteroid> getAsteroids() {

@@ -195,9 +195,11 @@ public class GameOverScreen implements Screen {
         @Override
         public boolean touchDown(float x, float y, int pointer, int button) {
             if (isButtonPressed(homeSprite, x, y)) {
+                homeSprite.setTexture(Assets.instance.getHomePressedTexture());
                 fadeOutAndReturnToMainMenu();
                 return true;
             } else if (isButtonPressed(replaySprite, x, y)) {
+                replaySprite.setTexture(Assets.instance.getReplayPressedTexture());
                 fadeOutAndStartGame();
                 return true;
             } else if (isButtonPressed(rateSprite, x, y)) {
