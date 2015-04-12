@@ -29,7 +29,9 @@ public class Constants {
 
     //game objects
     public static final String SPACESHIP_PNG = "images/spaceship.png";
-    public static final String SPACESHIP_WITH_BOOST_PNG = "images/spaceship_with_boost.png";
+    public static final String SPACESHIP_WITH_FULL_BOOST_PNG = "images/spaceship_with_full_boost.png";
+    public static final String SPACESHIP_WITH_LEFT_BOOST_PNG = "images/spaceship_with_left_boost.png";
+    public static final String SPACESHIP_WITH_RIGHT_BOOST_PNG = "images/spaceship_with_right_boost.png";
     public static final String SPACE_BACKGROUND_PNG = "images/space_background.png";
     public static final String ASTEROID_PNG = "images/asteroid.png";
 

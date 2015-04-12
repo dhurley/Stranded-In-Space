@@ -1,5 +1,6 @@
 package net.djhurley.strandedinspace.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.Disposable;
 import net.djhurley.strandedinspace.game.objects.Spaceship;
@@ -33,7 +34,19 @@ public class WorldController  implements InputProcessor, Disposable {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        spaceship.startBoost();
+        int activeTouch = 0;
+        for (int i = 0; i < 20; i++) {
+            if (Gdx.app.getInput().isTouched(i)) activeTouch++;
+        }
+
+        if (activeTouch == 2) {
+            spaceship.startFullBoost();
+        } else if (screenX < Gdx.graphics.getWidth() / 2){
+            spaceship.startLeftBoost();
+        }else{
+            spaceship.startRightBoost();
+        }
+
         return true;
     }
 

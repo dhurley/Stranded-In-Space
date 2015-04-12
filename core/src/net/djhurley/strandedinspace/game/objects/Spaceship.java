@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.Disposable;
 import net.djhurley.strandedinspace.common.Assets;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -22,7 +21,9 @@ public class Spaceship implements Disposable {
     private static final String TAG = Spaceship.class.getName();
 
     private Texture spaceshipTexture = Assets.instance.getSpaceshipTexture();
-    private Texture spaceshipWithBoostTexture = Assets.instance.getSpaceShipWithBoostTexture();
+    private Texture spaceShipWithFullBoostTexture = Assets.instance.getSpaceShipWithFullBoostTexture();
+    private Texture spaceShipWithLeftBoostTexture = Assets.instance.getSpaceShipWithLeftBoostTexture();
+    private Texture spaceShipWithRightBoostTexture = Assets.instance.getSpaceShipWithRightBoostTexture();
     private Sprite sprite = new Sprite(spaceshipTexture);
     private Sound boostSound = Assets.instance.getBoostSound();
 
@@ -33,6 +34,8 @@ public class Spaceship implements Disposable {
 
     private int boostSpeed = 2;
     private final boolean isSoundOn;
+
+    private boolean isRotatingClockwise = true;
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -65,12 +68,28 @@ public class Spaceship implements Disposable {
         //boostSound.dispose();
     }
 
-    public void startBoost() {
-            sprite.setTexture(spaceshipWithBoostTexture);
+    public void startFullBoost() {
+            sprite.setTexture(spaceShipWithFullBoostTexture);
             setBoost(boostSpeed);
             if (isSoundOn) {
                 playBoostSound();
             }
+    }
+
+    public void startLeftBoost() {
+        sprite.setTexture(spaceShipWithLeftBoostTexture);
+        isRotatingClockwise = false;
+        if (isSoundOn) {
+            playBoostSound();
+        }
+    }
+
+    public void startRightBoost() {
+        sprite.setTexture(spaceShipWithRightBoostTexture);
+        isRotatingClockwise = true;
+        if (isSoundOn) {
+            playBoostSound();
+        }
     }
 
     public void stopBoost() {
@@ -179,9 +198,18 @@ public class Spaceship implements Disposable {
     }
 
     private void handleTurning() {
-        rotation = rotation + 1;
+        if(isRotatingClockwise) {
+            rotation = rotation + 1;
+        }else{
+            rotation = rotation - 1;
+        }
+
         if (rotation == 361) {
             rotation = 1;
+        }
+
+        if (rotation == -1) {
+            rotation = 359;
         }
     }
 

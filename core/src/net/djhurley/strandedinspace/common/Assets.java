@@ -45,7 +45,9 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load(Constants.REPLAY_PRESSED_PNG, Texture.class);
 
         assetManager.load(Constants.SPACESHIP_PNG, Texture.class);
-        assetManager.load(Constants.SPACESHIP_WITH_BOOST_PNG, Texture.class);
+        assetManager.load(Constants.SPACESHIP_WITH_FULL_BOOST_PNG, Texture.class);
+        assetManager.load(Constants.SPACESHIP_WITH_LEFT_BOOST_PNG, Texture.class);
+        assetManager.load(Constants.SPACESHIP_WITH_RIGHT_BOOST_PNG, Texture.class);
         assetManager.load(Constants.SPACE_BACKGROUND_PNG, Texture.class);
         assetManager.load(Constants.ASTEROID_PNG, Texture.class);
         assetManager.load(Constants.EXPLOSION_PNG, Texture.class);
@@ -136,8 +138,16 @@ public class Assets implements Disposable, AssetErrorListener {
         return assetManager.get(Constants.SPACESHIP_PNG);
     }
 
-    public Texture getSpaceShipWithBoostTexture(){
-        return assetManager.get(Constants.SPACESHIP_WITH_BOOST_PNG);
+    public Texture getSpaceShipWithFullBoostTexture(){
+        return assetManager.get(Constants.SPACESHIP_WITH_FULL_BOOST_PNG);
+    }
+
+    public Texture getSpaceShipWithLeftBoostTexture(){
+        return assetManager.get(Constants.SPACESHIP_WITH_LEFT_BOOST_PNG);
+    }
+
+    public Texture getSpaceShipWithRightBoostTexture(){
+        return assetManager.get(Constants.SPACESHIP_WITH_RIGHT_BOOST_PNG);
     }
 
     public Texture getAsteroidTexture(){
