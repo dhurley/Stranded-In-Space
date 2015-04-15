@@ -37,8 +37,6 @@ public class Spaceship implements Disposable {
 
     private boolean isRotatingClockwise = true;
 
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
-
     public Spaceship(boolean isSoundOn) {
         this.isSoundOn = isSoundOn;
         size = new Vector2(Gdx.graphics.getWidth() / 5, Gdx.graphics.getWidth() / 5);
