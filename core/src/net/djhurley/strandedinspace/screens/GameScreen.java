@@ -40,15 +40,22 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         worldRenderer.render();
         if(worldRenderer.isGameOver()){
-            if (game.getActionResolver().getSignedInGPGS()) {
-                int score = worldRenderer.getScore();
-                game.getActionResolver().submitScoreGPGS(score);
+            if(game.getActionResolver() != null) {
+                if (game.getActionResolver().getSignedInGPGS()) {
+                    int score = worldRenderer.getScore();
+                    game.getActionResolver().submitScoreGPGS(score);
 
-                if (score >= 10) game.getActionResolver().unlockAchievementGPGS(Constants.ACHIEVEMENT_10_ID);
-                if (score >= 50) game.getActionResolver().unlockAchievementGPGS(Constants.ACHIEVEMENT_50_ID);
-                if (score >= 100) game.getActionResolver().unlockAchievementGPGS(Constants.ACHIEVEMENT_100_ID);
-                if (score >= 200) game.getActionResolver().unlockAchievementGPGS(Constants.ACHIEVEMENT_200_ID);
-                if (score >= 500) game.getActionResolver().unlockAchievementGPGS(Constants.ACHIEVEMENT_500_ID);
+                    if (score >= 10)
+                        game.getActionResolver().unlockAchievementGPGS(Constants.ACHIEVEMENT_10_ID);
+                    if (score >= 50)
+                        game.getActionResolver().unlockAchievementGPGS(Constants.ACHIEVEMENT_50_ID);
+                    if (score >= 100)
+                        game.getActionResolver().unlockAchievementGPGS(Constants.ACHIEVEMENT_100_ID);
+                    if (score >= 200)
+                        game.getActionResolver().unlockAchievementGPGS(Constants.ACHIEVEMENT_200_ID);
+                    if (score >= 500)
+                        game.getActionResolver().unlockAchievementGPGS(Constants.ACHIEVEMENT_500_ID);
+                }
             }
 
             dispose();

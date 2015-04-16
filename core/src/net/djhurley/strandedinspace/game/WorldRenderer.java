@@ -164,7 +164,7 @@ public class WorldRenderer implements Disposable {
     private void initializeBackground() {
         backgroundSprite = new Sprite(Assets.instance.getSpaceBackgroundTexture());
         backgroundSprite.setPosition(0, 0);
-        backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        backgroundSprite.setSize(Constants.getWidth(), Constants.getHeight());
     }
 
     private void renderBackground() {
@@ -175,15 +175,15 @@ public class WorldRenderer implements Disposable {
 
     private void renderScore() {
         batch.begin();
-        font.draw(batch, "Score: " + scoreMonitor.getScore(), Gdx.graphics.getWidth()/12, getFontPositionY());
+        font.draw(batch, "Score: " + scoreMonitor.getScore(), Constants.getWidth()/12, getFontPositionY());
         batch.end();
     }
 
     private int getFontPositionY() {
-        return Gdx.graphics.getHeight() - Gdx.graphics.getHeight()/30;
+        return Constants.getHeight() - Constants.getHeight()/30;
     }
 
     private Vector2 getWorldSize() {
-        return new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        return new Vector2(Constants.getWidth(), Constants.getHeight());
     }
 }

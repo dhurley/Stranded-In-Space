@@ -76,10 +76,13 @@ public class Assets implements Disposable, AssetErrorListener {
         this.assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
         FreetypeFontLoader.FreeTypeFontLoaderParameter param = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         param.fontFileName = Constants.DROID_SANS_TTF;
-        float size = 76.8f * (float) ((double) Gdx.graphics.getWidth() / (double) Gdx.graphics.getHeight());
-        Gdx.app.debug(TAG, "Screen height: " + Gdx.graphics.getHeight());
-        Gdx.app.debug(TAG, "Screen width: " + Gdx.graphics.getWidth());
-        Gdx.app.debug(TAG, "Font size: " + size);
+
+        float size = 30.5f * Gdx.graphics.getDensity() * (float) ((double) Constants.getWidth() / (double) Constants.getHeight());
+        Gdx.app.debug(TAG, "Screen height: " + Constants.getHeight());
+        Gdx.app.debug(TAG, "Screen width: " + Constants.getWidth());
+        Gdx.app.debug(TAG, "Density: " + Gdx.graphics.getDensity());
+        Gdx.app.debug(TAG, "Font size: " + MathUtils.round(size));
+
         param.fontParameters.size = MathUtils.round(size);
         this.assetManager.load(Constants.DROID_SANS_TTF, BitmapFont.class, param);
     }

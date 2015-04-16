@@ -14,6 +14,9 @@ import net.djhurley.strandedinspace.screens.SplashScreen;
 public class StrandedInSpace extends Game {
     private ActionResolver actionResolver;
 
+    public StrandedInSpace() {
+    }
+
     public StrandedInSpace(ActionResolver actionResolver) {
         this.actionResolver = actionResolver;
     }

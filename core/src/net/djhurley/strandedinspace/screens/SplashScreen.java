@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import net.djhurley.strandedinspace.StrandedInSpace;
 import net.djhurley.strandedinspace.common.Assets;
+import net.djhurley.strandedinspace.common.Constants;
 import net.djhurley.strandedinspace.tween.SpriteAccessor;
 
 import aurelienribon.tweenengine.BaseTween;
@@ -37,7 +38,7 @@ public class SplashScreen implements Screen {
         Tween.registerAccessor(Sprite.class, new SpriteAccessor());
 
         sprite = new Sprite(Assets.instance.getSplashScreenTexture());
-        sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        sprite.setSize(Constants.getWidth(), Constants.getHeight());
 
         Tween.set(sprite, SpriteAccessor.ALPHA).target(0).start(tweenManager);
         Tween.to(sprite, SpriteAccessor.ALPHA, 3).target(1).repeatYoyo(1, 1).setCallback(new TweenCallback() {

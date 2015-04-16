@@ -3,6 +3,8 @@ package net.djhurley.strandedinspace.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.Disposable;
+
+import net.djhurley.strandedinspace.common.Constants;
 import net.djhurley.strandedinspace.game.objects.Spaceship;
 
 /**
@@ -41,7 +43,7 @@ public class WorldController  implements InputProcessor, Disposable {
 
         if (activeTouch == 2) {
             spaceship.startFullBoost();
-        } else if (screenX < Gdx.graphics.getWidth() / 2){
+        } else if (screenX < Constants.getWidth() / 2){
             spaceship.startLeftBoost();
         }else{
             spaceship.startRightBoost();

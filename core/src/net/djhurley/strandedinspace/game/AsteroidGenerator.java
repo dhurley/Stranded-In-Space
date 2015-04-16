@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+
+import net.djhurley.strandedinspace.common.Constants;
 import net.djhurley.strandedinspace.game.objects.Asteroid;
 
 import java.util.ArrayList;
@@ -31,14 +33,14 @@ public class AsteroidGenerator {
 
         while(true) {
             float randomSizeRatio = MathUtils.random(12, 15);
-            float radius = Gdx.graphics.getWidth() / randomSizeRatio;
+            float radius = Constants.getWidth() / randomSizeRatio;
             Vector2 size = new Vector2(radius, radius);
 
-            float randomPositionX = MathUtils.random(size.x, Gdx.graphics.getWidth() - size.x);
-            Vector2 position = new Vector2(randomPositionX, Gdx.graphics.getHeight());
+            float randomPositionX = MathUtils.random(size.x, Constants.getWidth() - size.x);
+            Vector2 position = new Vector2(randomPositionX, Constants.getHeight());
 
-            float randomVelocityX = MathUtils.random(-0.5f, 0.5f);
-            float randomVelocityY = MathUtils.random(-0.5f, -2);
+            float randomVelocityX = MathUtils.random(-Constants.getHeight() * 0.0003f, Constants.getHeight() * 0.0003f);
+            float randomVelocityY = MathUtils.random(-Constants.getHeight() * 0.0003f, -Constants.getHeight() * 0.001f);
             Vector2 velocity = new Vector2(randomVelocityX, randomVelocityY);
 
             float rotation = MathUtils.random(1, 3);

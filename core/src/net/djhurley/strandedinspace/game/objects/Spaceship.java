@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import net.djhurley.strandedinspace.common.Assets;
+import net.djhurley.strandedinspace.common.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,21 +33,23 @@ public class Spaceship implements Disposable {
     private float rotation;
     private Vector2 boost;
 
-    private int boostSpeed = 2;
+    private float boostSpeed = Constants.getHeight() * 0.001f;
     private final boolean isSoundOn;
 
     private boolean isRotatingClockwise = true;
 
     public Spaceship(boolean isSoundOn) {
         this.isSoundOn = isSoundOn;
-        size = new Vector2(Gdx.graphics.getWidth() / 5, Gdx.graphics.getWidth() / 5);
-        position = new Vector2((Gdx.graphics.getWidth() / 2) - (size.y / 2), Gdx.graphics.getHeight() / 15);
+        size = new Vector2(Constants.getWidth() / 5, Constants.getWidth() / 5);
+        position = new Vector2((Constants.getWidth() / 2) - (size.y / 2), Constants.getHeight() / 15);
         boost = new Vector2(0, 0);
         rotation = 0;
 
         sprite.setSize(size.x, size.y);
         sprite.setOrigin(size.x / 2, size.y / 2);
+
         setBoost(boostSpeed);
+        Gdx.app.debug(TAG, "boost speed: " + boostSpeed);
     }
 
     public void render(SpriteBatch batch) {
@@ -217,7 +220,7 @@ public class Spaceship implements Disposable {
     }
 
     private void setBoost(float speed) {
-        Gdx.app.debug(TAG, "rotation: " + rotation);
+//        Gdx.app.debug(TAG, "rotation: " + rotation);
         if (rotation >= 0 && rotation <= 90) {
             float tmp = (rotation * speed) / 90;
             boost.y = speed - tmp;

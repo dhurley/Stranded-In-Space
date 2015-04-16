@@ -1,11 +1,13 @@
 package net.djhurley.strandedinspace.common;
 
+import com.badlogic.gdx.Gdx;
+
 /**
  * Created by DJHURLEY on 20/01/2015.
  */
 public class Constants {
-    public static final float VIEWPORT_WIDTH = 5.0f;
-    public static final float VIEWPORT_HEIGHT = 5.0f;
+    public static final float VIEWPORT_WIDTH = getWidth();
+    public static final float VIEWPORT_HEIGHT = getHeight();
 
     public static final String GAME_URI = "https://play.google.com/store/apps/details?id=net.djhurley.strandedinspace.android";
     public static final String LEADERBOARD_ID = "CggIyu6T6XoQAhAA";
@@ -50,4 +52,12 @@ public class Constants {
 
     //sprite sheets
     public static final String EXPLOSION_PNG = "sprite_sheets/explosion.png";
+
+    public static int getWidth(){
+        return Gdx.graphics.getWidth();
+    }
+
+    public static int getHeight(){
+        return Gdx.graphics.getHeight();
+    }
 }

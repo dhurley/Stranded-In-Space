@@ -51,8 +51,8 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
         spriteBatch = new SpriteBatch();
-        screenWidth = Gdx.graphics.getWidth();
-        screenHeight = Gdx.graphics.getHeight();
+        screenWidth = Constants.getWidth();
+        screenHeight = Constants.getHeight();
 
         int iconWidth = screenWidth/5;
         int iconHeight = screenWidth/5;
@@ -154,7 +154,7 @@ public class MainMenuScreen implements Screen {
     private void initializeBackground() {
         backgroundSprite = new Sprite(Assets.instance.getSpaceBackgroundTexture());
         backgroundSprite.setPosition(0, 0);
-        backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        backgroundSprite.setSize(Constants.getWidth(), Constants.getHeight());
     }
 
     private void fadeOutAndStartGame() {

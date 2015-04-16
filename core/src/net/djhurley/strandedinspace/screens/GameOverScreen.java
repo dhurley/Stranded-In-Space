@@ -56,8 +56,8 @@ public class GameOverScreen implements Screen {
         Tween.registerAccessor(Sprite.class, new SpriteAccessor());
         Tween.registerAccessor(BitmapFont.class, new BitmapFontAccessor());
 
-        screenWidth = Gdx.graphics.getWidth();
-        screenHeight = Gdx.graphics.getHeight();
+        screenWidth = Constants.getWidth();
+        screenHeight = Constants.getHeight();
 
         initializeGameOverSprite();
         font = Assets.instance.getDroidSansFont();
@@ -141,7 +141,7 @@ public class GameOverScreen implements Screen {
     private void initializeBackground() {
         backgroundSprite = new Sprite(Assets.instance.getSpaceBackgroundTexture());
         backgroundSprite.setPosition(0, 0);
-        backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        backgroundSprite.setSize(Constants.getWidth(), Constants.getHeight());
     }
 
     private void fadeOutAndReturnToMainMenu() {
