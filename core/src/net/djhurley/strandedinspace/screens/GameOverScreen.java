@@ -97,14 +97,26 @@ public class GameOverScreen implements Screen {
         batch.begin();
         backgroundSprite.draw(batch);
         gameOverSprite.draw(batch);
-        font.draw(batch, "You are stranded in space forever.", (screenWidth / 5), 2 * screenHeight / 3);
-        font.draw(batch, "Score: " + score, (3 * screenWidth / 7), 3 * screenHeight / 5);
+
+        renderText();
+
         homeSprite.draw(batch);
         replaySprite.draw(batch);
         rateSprite.draw(batch);
         leaderboardSprite.draw(batch);
 
         batch.end();
+    }
+
+    private void renderText() {
+        float messageFontWidth = font.getBounds("You are stranded in space forever.").width;
+        float scoreFontWidth = font.getBounds("Score: " + score).width;
+
+        float messageFontPosition = (screenWidth - messageFontWidth) / 2;
+        float scoreFontPosition = (screenWidth - scoreFontWidth) / 2;
+
+        font.draw(batch, "You are stranded in space forever.", messageFontPosition, 2 * screenHeight / 3);
+        font.draw(batch, "Score: " + score, scoreFontPosition, 3 * screenHeight / 5);
     }
 
     @Override
